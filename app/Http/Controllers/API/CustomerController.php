@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -22,17 +23,17 @@ class CustomerController extends Controller
     // }
     // $post->save();
 
-    public function register(Request $request)
+    public function register(CustomerRequest $customerRequest, Request $request)
     {
         $message = "";
         $customer = new Customer();
-        $customer->dob  = $request->post('date_of_birth');
-        $customer->national_id  = $request->post('national_id');
-        // $customer->profile_image  = $request->post('date_of_birth') ; 
-        $customer->mobile_number  = $request->post('mobile_number');
+        $customer->dob  = $customerRequest->post('date_of_birth');
+        $customer->national_id  = $customerRequest->post('national_id');
+        // $customer->profile_image  = $customerRequest->post('date_of_birth') ;
+        $customer->mobile_number  = $customerRequest->post('mobile_number');
         // TODO:
-        // Password Confirmation 
-        // Image Upload 
+        // Password Confirmation
+        // Image Upload
         $userCustomer  = new User();
         $userCustomer->assignRole('user');
         $userCustomer->name = $request->post('name');
@@ -63,7 +64,7 @@ class CustomerController extends Controller
         return response()->json([
             'token' => $token
         ]);
-        // TODO : Sending User Data With Token  ; 
+        // TODO : Sending User Data With Token  ;
 
 
     }
@@ -76,9 +77,9 @@ class CustomerController extends Controller
                 'Error' => "No"
             ]);
         } else {
-            $userId = auth('sanctum')->user()->id ; 
+            $userId = auth('sanctum')->user()->id ;
             return response()->json([
-                'Your Id ' => $userId , 
+                'Your Id ' => $userId ,
                 'Success' => "Everything OK"
             ]);
         }
