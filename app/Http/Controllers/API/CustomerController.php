@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -23,17 +24,17 @@ class CustomerController extends Controller
     // }
     // $post->save();
 
-    public function register(CustomerRequest $customerRequest, Request $request)
+    public function register(CustomerRequest $customerRequest, UserRequest $request)
     {
         $message = "";
         $customer = new Customer();
         $customer->dob  = $customerRequest->post('date_of_birth');
         $customer->national_id  = $customerRequest->post('national_id');
-        // $customer->profile_image  = $customerRequest->post('date_of_birth') ;
+        $customer->profile_image = $customerRequest->file('profile_image');
         $customer->mobile_number  = $customerRequest->post('mobile_number');
         // TODO:
         // Password Confirmation
-        // Image Upload
+
         $userCustomer  = new User();
         $userCustomer->assignRole('user');
         $userCustomer->name = $request->post('name');
