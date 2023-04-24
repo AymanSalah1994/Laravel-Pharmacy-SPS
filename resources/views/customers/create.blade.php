@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    @include('layouts.update-forms.medicine')
+    I think There is Not Need For Creation OF the User , He Register By Himself !!
 @endsection
 
 @section('scripts')

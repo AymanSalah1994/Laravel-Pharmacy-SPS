@@ -1,8 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    This is Edit Doctor
+@include('layouts.update-forms.doctor')
 @endsection
-
 @section('scripts')
 @endsection

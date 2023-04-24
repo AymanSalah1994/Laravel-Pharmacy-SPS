@@ -1,7 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('medicines.create') }}" class="btn btn-primary">Create New Medicine</a>
     <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
@@ -10,7 +9,8 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Price</th>
+                <th>National Id</th>
+                <th>Avatar Image</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -28,7 +28,7 @@
                 let form = document.getElementById(formId);
                 // form.submit();
                 $.ajax({
-                    url: '/medicines/' + formId,
+                    url: '/customers/' + formId,
                     type: 'DELETE',
                     data: {
                         "id": formId,
@@ -58,8 +58,11 @@
                 name: 'name'
             },
             {
-                data: 'price',
-                name: 'price'
+                data: 'national_id',
+                name: 'national_id'
+            }, {
+                data: 'profile_image',
+                name: 'profile_image'
             },
             {
                 data: 'action',
@@ -77,7 +80,7 @@
                 serverSide: true,
                 "searching": false,
                 ajax: {
-                    url: '/medicines',
+                    url: '/customers',
                     type: 'GET',
                 },
             });
@@ -87,7 +90,7 @@
                 console.log("Search keyWord : " + ser);
                 $.ajax({
                     method: "GET",
-                    url: '/medicines',
+                    url: '/customers',
                     dataType: 'json',
                     data: {
                         'searchkeyWord': ser,
@@ -120,7 +123,6 @@
                     background: "linear-gradient(to right, #00b09b, #96c93d)",
                 },
             }).showToast();
-            
         </script>
     @endif
 @endsection

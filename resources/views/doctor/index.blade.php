@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary">Create New Doctor</a>
+    <a href="{{ route('doctors.create') }}" class="btn btn-primary">Create New Doctor</a>
     <br>
     <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
@@ -52,6 +52,25 @@
                     }
                 });
             }
+        }
+
+        function banDoctor(doctorId, formToken) {
+            $.ajax({
+                url: '/doctors/ban/' + doctorId,
+                type: 'POST',
+                data: {
+                    'doctor_id': doctorId,
+                    '_token': formToken,
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
         }
 
         var myTable = $('#koko');

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PharmacyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,7 @@ Route::get('/dash', function () {
 Route::resource('/doctors', DoctorController::class);
 Route::resource('/pharmacies', PharmacyController::class);
 
+Route::post('/doctors/ban/{doctor}',[DoctorController::class, 'ban'])->name('doctors.ban');
 
 
 
@@ -32,3 +35,7 @@ Route::get('/pharma/{id}/edit', [PharmacyController::class, 'edit'])->name('phar
 Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharmacies.update');
 //  Route::delete('/pharma/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy'); 
 //oncedefined as resorxe yoyu cant assign more 
+
+
+Route::resource('/medicines', MedicineController::class);
+Route::resource('/customers', CustomerController::class);

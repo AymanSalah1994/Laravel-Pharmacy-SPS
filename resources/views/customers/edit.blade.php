@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-@include('layouts.creation-forms.doctor')
+    @include('layouts.update-forms.customer')
 @endsection
 
 @section('scripts')
