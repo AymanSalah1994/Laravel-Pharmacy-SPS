@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerAdminUpdateRequest;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
@@ -78,11 +79,15 @@ class CustomerController extends Controller
         return view('customers.edit', compact('cust'));
     }
 
-    public function update(CustomerRequest $request, Customer $customer)
+    public function update(CustomerAdminUpdateRequest $request, Customer $customer)
     {
         $allRequestedData = $request->handleRequest();
+        // dd($allRequestedData);  // TODO
         $customer = Customer::findOrFail($customer->id);
         $customer->update($allRequestedData);
+        $userModelData =  [];
+        $userModelData['name'] = $allRequestedData['name'];  // If more Than One Field add them
+        $customer->users()->update($userModelData);
         return redirect()->route('customers.index')->with('status', 'Customer Updated Successfully');
     }
 

@@ -23,6 +23,7 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' =>['required', 'string'] ,
             'gender' => ['required', Rule::in(['male', 'female'])],
             'dob' => ['required', 'date'],
             'national_id' => ['required', 'string', 'min:11', 'max:11'],
