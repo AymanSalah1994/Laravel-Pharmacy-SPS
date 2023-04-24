@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    This is Create Doctor
+@include('layouts.creation-forms.doctor')
 @endsection
 
 @section('scripts')

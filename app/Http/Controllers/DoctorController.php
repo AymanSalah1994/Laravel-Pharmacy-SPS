@@ -78,7 +78,7 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        return view('doctor.create');
     }
 
     /**
@@ -86,7 +86,27 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $doctor = new Doctor();
+        $doctor->national_id  = $request->input('national_id');
+        if ($request->hasFile('avatar_image')) {
+            $file = $request->file('avatar_image');
+            $doctor->avatar_image = 'ava-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('images', $doctor->avatar_image);
+            $doctor->save();
+            // TODO: Something Wrong with Files (Ubuntu Windows ?)
+        } else {
+            $doctor->avatar_image = "1.jpg"; //Default 
+            $doctor->save();
+        }
+
+        $userDoctor  = new User();
+        $userDoctor->assignRole('doctor');
+        $userDoctor->name = $request->input('name');
+        $userDoctor->email = $request->input('email');
+        $userDoctor->password = Hash::make($request->input('password'));
+        $doctor->users()->save($userDoctor);
+
+        return redirect()->route('doctors.index');
     }
 
     /**

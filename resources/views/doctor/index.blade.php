@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary">Create New Doctor</a>
+    <a href="{{ route('doctors.create') }}" class="btn btn-primary">Create New Doctor</a>
     <br>
     <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
