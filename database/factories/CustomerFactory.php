@@ -17,12 +17,13 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'gender' => "Famale",
-            // $this->faker->randomElements(['male', 'female']) NOT WORKING 
+            // $this->faker->randomElements(['male', 'female']) NOT WORKING
+            'gender' =>  $this->faker->title($gender = 'male'|'female') ,
             'dob' => $this->faker->date(),
             'national_id' => $this->faker->uuid(),
-            'profile_image' => '1.jpg', // Default Avatar Image 
+            'profile_image' => '1.jpg', // Default Avatar Image
             'mobile_number' => $this->faker->phoneNumber(),
+            'last_login' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

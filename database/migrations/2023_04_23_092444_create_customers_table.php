@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("national_id");
             $table->string("profile_image");
             $table->string("mobile_number");
+            $table->timestamp('last_login')->nullable();
             $table->timestamps();
         });
     }
