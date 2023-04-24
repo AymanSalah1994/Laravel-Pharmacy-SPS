@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PharmacyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::resource('/pharmacies', PharmacyController::class);
 
 
 
+
 // This will Be and Admin Route 
 Route::get('/pharma/restoreAll', [PharmacyController::class, 'restoreAll'])->name('pharmacies.restore.all');
 //oncedefined as resorxe yoyu cant assign more 
+
+
+Route::resource('/medicines', MedicineController::class);
