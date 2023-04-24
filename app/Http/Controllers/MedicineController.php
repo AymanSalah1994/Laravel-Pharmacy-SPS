@@ -58,7 +58,7 @@ class MedicineController extends Controller
     public function show(Medicine $medicine)
     {
         $m = Medicine::find($medicine)->first();
-        return view('admin.medicine.show', compact('m'));
+        return view('medicine.show', compact('m'));
     }
 
     public function edit(Medicine $medicine)

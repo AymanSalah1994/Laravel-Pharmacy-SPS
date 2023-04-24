@@ -13,6 +13,4 @@ class Customer extends Model
     {
         return $this->morphMany(User::class, 'userable');
     }
-
-    
 }
