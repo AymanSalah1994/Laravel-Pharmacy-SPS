@@ -1,0 +1,20 @@
+Using the AdminLTE : 
+    - The Resources "Dependencies" we Need are [ dist & plugins ] Folders 
+
+1- Take BOTH and Put them in the "public" folder In the laravel project 
+        # By putting them in Public folder you Can access them Using "asset()"
+        Helper Function 
+        # Note : There are So Many Assets Files But For Now Keep them All !
+
+
+2- The General Rule "According to the PDF ":
+    All views must be divided into sub directories Like posts/index.blade.php
+     : Each Tab [ For each Model ] Has a Views Folder For its Own CRUD operations 
+
+3- For Now One DashBoard View is Made : 
+    - Supposed to Make a "Navigation" Component For each ROLE/USER 
+
+I will Start Now with Permissions Since it is related to those "NAVIGATIONS" Tabs 
+
+
+## ALL WHAT WE NEED is the "starter.html" File !!! And Related assets ! 

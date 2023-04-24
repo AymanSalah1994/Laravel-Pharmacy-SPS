@@ -1,0 +1,67 @@
+I will Start Making the Endpoints One By One , And For each  i will Make The Needed Changes 
+    - For example Adding Fillables and Changing some kind Of Coulmn Type if Needed
+
+# Sanctum is There But you Still Can Follow thing links Steps : 
+    https://laravel.com/docs/master/sanctum
+
+
+# First we will Create "API/CustomerController" 
+    ~ $ php artisan make:controller API/CustomerController
+        For "Regsiter , Login , Update profile ...etc 
+    
+Also Create the Resource For it 
+    // TODO 
+
+Register is Ok , Except For "Image" and Checking Password And Making the Request Class  ; 
+You Can Register , and If you Try after that to Login From the Browser it will Work Fine  ; 
+    I also Added a Yandex Email For Sending Real Email For Verification [ You Can Try Mohmal Temporary Email service]
+
+Verification is OK 
+==================
+
+
+The Queue OF the Verification Notification HAS Many Parts Involved  : 
+    [
+        Notification :
+        {
+            1- Creating it 
+            ~$ php artisan make:notification EmailVerified
+        Now the "Email Notification itself Exist >>
+        ($user->notify(new EmailVerified()) ; )
+            This Line is Enough to send it  to "$user"  !!!!
+        }
+
+        //Inside VerifyEmails.php File We Can Add This Notification Code after user Verify 
+        In this File -> PROJECT_NAME/vendor/laravel/ui/auth-backend/VerifiesEmails.php
+        [
+            if ($request->user()->markEmailAsVerified()) {
+                    event(new Verified($request->user()));
+                    $request->user()->notify(new EmailVerified()) ;  // Adding THIS ONE LINE 
+                    "It is in the GitIngore !! " I commented it 
+                }
+        ]
+        // The Above will Work ,, But Still the "QUQUE" Problem !! 
+
+
+--->>>>> Inside VerificationController.php 
+-->> we will "Override" { From trait VerifiesEmails }
+protected function verified(Request $request)
+    {
+        //
+    }
+
+        Queuing this Notification : 
+        {
+            1- In the Notification Class Implement the ShouldQueue Interface  ; 
+
+            $ php artisan queue:table
+                For the Jobs Table 
+            QUEUE_CONNECTION=database
+                In the Env File 
+            
+            JUST Now Run the Queue To Work "TashGheel"
+                $  php artisan queue:work
+            Once Verified the Notification is Send to Queue and It will RUN !
+        } 
+       
+    ]

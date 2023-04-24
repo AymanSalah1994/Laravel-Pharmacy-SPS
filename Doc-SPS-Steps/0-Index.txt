@@ -1,0 +1,18 @@
+General Notes  :
+    - The Development is Incremental , Following the PDF specifications [ Starting with Admin then Doctor 
+    ...etc ] , Then Adding Middlewares and Roles ...etc 
+    It is CIRCULAR 
+
+He said To Stick with the Simple things !! 
+    - This is Useful Specially with Vague things !! 
+
+================================================
+
+1-About the Seeder For Admin 
+2-About Making admin Custom Command 
+3-Authentication and Laravel/UI
+4-Using/Putting "AdminLTE" Dashboard as a Blade View 
+5-USERS / Roles / and Permissions !!
+6-Models For Different Roles 
+7-Testing Roles 
+8-Putting Navigations Based On the Rule ; 
