@@ -70,13 +70,10 @@ class CustomerController extends Controller
 
     public function edit(Customer $customer)
     {
-        $cust = Customer::findOrFail($customer->id) ; 
-        
+        $cust = Customer::findOrFail($customer->id);
         $cust = $cust->with('users')
-        ->where('id' , $cust->id)
-        ->first() ; 
-
-        
+            ->where('id', $cust->id)
+            ->first();
         // dd($cust->users[0]->name) ; 
         return view('customers.edit', compact('cust'));
     }
