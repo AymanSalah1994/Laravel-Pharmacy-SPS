@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pharmacy;
+use App\Models\Area;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePharmacyRequest;
+use App\Http\Requests\UpdatePharmacyRequest;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+
 
 class PharmacyController extends Controller
 {
@@ -76,7 +80,7 @@ class PharmacyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePharmacyRequest $request)
     {
         $pharmacy = new Pharmacy();
         $pharmacy->national_id  = $request->input('national_id');
@@ -108,7 +112,19 @@ class PharmacyController extends Controller
      */
     public function show(string $id)
     {
-        //
+           $pharmacy = Pharmacy::find($id)->first();
+           $userPharma = User::where(
+            [
+                ['userable_id', $id],
+               ['userable_type','App\Models\Pharmacy']
+            ]
+      
+        )->get();
+        $userPharmacy =  $userPharma[0];
+        //    dd($pharmacy->users);
+            // $this->authorize('view', $pharmacy);
+            return view('pharmacy.show' , compact('pharmacy','userPharmacy'));
+        
     }
 
     /**
@@ -116,29 +132,100 @@ class PharmacyController extends Controller
      */
     public function edit(string $id)
     {
-        //
-    }
+        $pharmacy = Pharmacy::find($id);
+        $areas = Area::all();
+        $userPharmacy = User::where(
+            [
+                ['userable_id', $id],
+               ['userable_type','App\Models\Pharmacy']
+            ]
+      
+        )->get();
 
+        $userPharma =  $userPharmacy[0];
+        // dd($userPharma);
+        return view('pharmacy.edit', compact('pharmacy','userPharma','areas'));
+    }
+    
+    public function update(UpdatePharmacyRequest $request)
+    {
+  
+        $pharmacy = Pharmacy::find($request->id);
+        $pharmacy->national_id  = $request->input('national_id');
+        $pharmacy->area_id  = $request->input('area_id');
+        $pharmacy->priority  = $request->input('priority');
+            if ($request->hasFile('avatar_image')) {
+                if ($pharmacy->avatar_image) {
+                    Storage::delete($pharmacy->avatar_image);
+                }
+                $file = $request->file('avatar_image');
+                $pharmacy->avatar_image = 'ava-' . time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('images', $pharmacy->avatar_image);
+            }
+          
+                $pharmacy->save();
+            $userPharmacy = User::where([
+                ['userable_id', $request->id],
+                ['userable_type', 'App\Models\Pharmacy']
+            ])->first();
+            
+            $userPharmacy->name = $request->input('name');
+            $userPharmacy->email = $request->input('email');
+            $userPharmacy->password = Hash::make($request->input('password'));
+            $pharmacy->users()->save($userPharmacy);
+
+           
+
+        // $allRequestedData = $request->handleRequest();
+        // $medicine = Medicine::findOrFail($medicine->id);
+        // $medicine->update($allRequestedData);
+        return redirect()->route('pharmacies.index')->with('status', 'Pharmacy Updated Successfully');
+    }
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pharmacy $pharmacy)
+    // public function destroy(Pharmacy $pharmacy)
+    // {
+    //     // dd($pharmacy);
+    //     $deletedPharmacy = Pharmacy::find($pharmacy)->first();
+    //     $userPharmacy = User::where([
+    //         ['userable_id', $pharmacy],
+    //         ['userable_type', 'App\Models\Pharmacy']
+    //     ])->first();
+    //         $userPharmacy->delete();
+    //     $deletedPharmacy->delete();
+
+        
+    //     return response()->json([
+    //         'success' => 'Record deleted successfully!'
+    //     ]);
+
+    //     // TODO , Delete ALSO From User Table Model 
+    // }
+    public function destroy(string $id)
     {
-        $deletedPharmacy = Pharmacy::find($pharmacy)->first();
+     
+        $deletedPharmacy = Pharmacy::find($id)->first();
+        $userPharma=User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Pharmacy']
+        ])->get();
+        $userPharmacy =$userPharma[0];
+
         $deletedPharmacy->delete();
+        $userPharmacy->delete();
+
         return response()->json([
             'success' => 'Record deleted successfully!'
         ]);
-
-        // TODO , Delete ALSO From User Table Model 
     }
 
     public function restoreAll()
