@@ -1,6 +1,8 @@
 1-Create a Seeder 
     ~$ php artisan make:seeder AdminSeeder
-
+php artisan make:seeder AdminSeeder
+ php artisan make:factory CustomerFactory -m Customer
+ 
 2-In the Seeder Define the Creation of One Admin :
     Using the "DB" Facade and the Insert Method To Enter the Static Data
     For the Admin  ; 
