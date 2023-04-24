@@ -7,6 +7,7 @@ use App\Models\Pharmacy;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -48,9 +49,9 @@ class DoctorController extends Controller
                     if ($allDoctors->deleted_at) {
                         $deleteOrRestore = "Restore";
                     }
-                    $showLink  = route('pharmacies.show', $allDoctors->id);
-                    $editLink  = route('pharmacies.edit', $allDoctors->id);
-                    $deleteLink  = route('pharmacies.destroy', $allDoctors->id);
+                    $showLink  = route('doctors.show', $allDoctors->id);
+                    $editLink  = route('doctors.edit', $allDoctors->id);
+                    $deleteLink  = route('doctors.destroy', $allDoctors->id);
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
@@ -114,7 +115,13 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $doctor=Doctor::findOrFail($id);
+        $userDoctor=User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Doctor']
+        ])->get();
+        $userDR =$userDoctor[0];
+        return view('doctor.show')->with(compact('doctor','userDR'));
     }
 
     /**
@@ -122,15 +129,42 @@ class DoctorController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $doctor=Doctor::findOrFail($id);
+        $userDoctor=User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Doctor']
+        ])->get();
+        $userDR =$userDoctor[0];
+       // dd($userDoctor[0]);
+        return view('doctor.edit')->with(compact('doctor','userDR'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DoctorRequest $request, string $id)
     {
-        //
+ 
+        $doctor=Doctor::findOrFail($id);
+        $userDoctor=User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Doctor']
+        ])->get();
+        $userDR =$userDoctor[0];
+        if($doctor){
+            $doctor->national_id = $request->national_id;
+            // $doctor->avatar_image = $request->avatar_image;
+            // $doctor->is_banned = $request->is_banned;
+        }
+        if($userDR){
+            $userDR->name= $request->name;
+            $userDR->email= $request->email;
+            $userDR->password= $request->password;
+        }
+        $doctor->save();
+        $userDR->save();
+       return redirect()->route('doctors.index')->with('status', 'DR Updated Successfully');
+
     }
 
     /**
@@ -138,6 +172,17 @@ class DoctorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $doctor=Doctor::findOrFail($id);
+        $userDoctor=User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Doctor']
+        ])->get();
+        $userDR =$userDoctor[0];
+        
+        $doctor->delete();
+        $userDR->delete();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }
