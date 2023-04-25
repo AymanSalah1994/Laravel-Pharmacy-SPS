@@ -7,10 +7,12 @@ use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\EmailVerified;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+
 
 class CustomerController extends Controller
 {
@@ -26,6 +28,7 @@ class CustomerController extends Controller
 
     public function register(CustomerRequest $customerRequest, UserRequest $request)
     {
+
         $message = "";
         $customer = new Customer();
         $customer->dob  = $customerRequest->post('dob');
@@ -48,6 +51,7 @@ class CustomerController extends Controller
         $customer->users()->save($userCustomer);
         // event(new Registered($userCustomer));
         $userCustomer->sendEmailVerificationNotification();
+        $userCustomer->notify((new EmailVerified)->delay(now()->addSeconds(30)));
         return response()->json([
             'message' => 'Account created , Use the Email Sent to you and Log in To Verify'
         ], 201);
