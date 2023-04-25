@@ -71,11 +71,16 @@ class CustomerController extends Controller
             ]);
         }
         $token  = $user->createToken("devoo")->plainTextToken;
-        return response()->json([
-            'token' => $token
-        ]);
-        // TODO : Sending User Data With Token  ;
+        $user_data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ];
 
+        return response()->json([
+            'token' => $token,
+            'user' => $user_data
+        ]);
 
     }
 
