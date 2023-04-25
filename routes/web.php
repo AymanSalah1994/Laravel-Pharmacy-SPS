@@ -24,7 +24,7 @@ Route::get('/dash', function () {
 Route::resource('/doctors', DoctorController::class);
 Route::resource('/pharmacies', PharmacyController::class);
 
-Route::post('/doctors/ban/{doctor}',[DoctorController::class, 'ban'])->name('doctors.ban');
+Route::post('/doctors/ban/{doctor}', [DoctorController::class, 'ban'])->name('doctors.ban');
 
 
 
@@ -39,3 +39,4 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);
+Route::resource('/areas', CustomerController::class);

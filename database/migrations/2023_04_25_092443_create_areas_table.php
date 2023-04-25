@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->string("name") ; 
+            $table->unsignedBigInteger('country_id');
+            // $table->foreignId('coun/try_id')->constrained();
+            $table->string("name");
             $table->timestamps();
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('areas');
