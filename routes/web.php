@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
@@ -39,4 +40,4 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);
-Route::resource('/areas', CustomerController::class);
+Route::resource('/areas', AreaController::class);

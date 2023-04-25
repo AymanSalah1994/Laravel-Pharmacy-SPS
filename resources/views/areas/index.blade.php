@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary">Create New Medicine</a>
+    <a href="{{ route('areas.create') }}" class="btn btn-primary">Create New Area</a>
     <br>
     <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
@@ -10,12 +10,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Created At</th>
-                <th>National Id</th>
-                <th>Email</th>
-                <th>Is Banned</th>
-                <th>Avatar Image</th>
+                <th>Country</th>
+                <th>Name Of Area</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -33,7 +29,7 @@
                 let form = document.getElementById(formId);
                 // form.submit();
                 $.ajax({
-                    url: '/doctors/' + formId,
+                    url: '/areas/' + formId,
                     type: 'DELETE',
                     data: {
                         "id": formId,
@@ -60,27 +56,12 @@
                 name: 'id'
             },
             {
+                data: 'country_id',
+                name: 'country_id'
+            },
+            {
                 data: 'name',
                 name: 'name'
-            },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-            {
-                data: 'national_id',
-                name: 'national_id'
-            },
-            {
-                data: 'email',
-                name: 'email'
-            },
-            {
-                data: 'is_banned',
-                name: 'is_banned'
-            }, {
-                data: 'avatar_image',
-                name: 'avatar_image'
             },
             {
                 data: 'action',
@@ -98,7 +79,7 @@
                 serverSide: true,
                 "searching": false,
                 ajax: {
-                    url: '/doctors',
+                    url: '/areas',
                     type: 'GET',
                 },
             });
@@ -109,7 +90,7 @@
                 console.log("Search keyWord : " + ser);
                 $.ajax({
                     method: "GET",
-                    url: '/doctors',
+                    url: '/areas',
                     dataType: 'json',
                     data: {
                         'searchkeyWord': ser,
@@ -133,4 +114,15 @@
             }
         });
     </script>
+    @if ($status = session('status'))
+        <script>
+            Toastify({
+                text: '{{ $status }}',
+                duration: 3000,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
+        </script>
+    @endif
 @endsection
