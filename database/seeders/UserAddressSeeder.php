@@ -2,15 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Medicine;
+
+use App\Models\UserAddress;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MedicineSeeder extends Seeder
+class UserAddressSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        //
-        Medicine::factory(10)->create();
+        UserAddress::factory()->count(10)->create();
     }
 }

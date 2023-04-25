@@ -7,10 +7,12 @@ use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Customer;
 use App\Models\User;
+use App\Notifications\EmailVerified;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+
 
 class CustomerController extends Controller
 {
@@ -26,23 +28,30 @@ class CustomerController extends Controller
 
     public function register(CustomerRequest $customerRequest, UserRequest $request)
     {
+
         $message = "";
         $customer = new Customer();
-        $customer->dob  = $customerRequest->post('date_of_birth');
+        $customer->dob  = $customerRequest->post('dob');
+        $customer->gender  = $customerRequest->post('gender');
         $customer->national_id  = $customerRequest->post('national_id');
         $customer->profile_image = $customerRequest->file('profile_image');
         $customer->mobile_number  = $customerRequest->post('mobile_number');
-        // TODO:
-        // Password Confirmation
 
         $userCustomer  = new User();
         $userCustomer->assignRole('user');
         $userCustomer->name = $request->post('name');
         $userCustomer->email = $request->post('email');
         $userCustomer->password = Hash::make($request->post('password'));
+        // Password Confirmation
+        if ($request->post('password') !== $request->post('confirm_password')) {
+            return response()->json([
+                'message' => 'The password confirmation does not match.'
+            ], 422);
+        }
         $customer->users()->save($userCustomer);
         // event(new Registered($userCustomer));
         $userCustomer->sendEmailVerificationNotification();
+        $userCustomer->notify((new EmailVerified)->delay(now()->addSeconds(30)));
         return response()->json([
             'message' => 'Account created , Use the Email Sent to you and Log in To Verify'
         ], 201);
@@ -62,11 +71,16 @@ class CustomerController extends Controller
             ]);
         }
         $token  = $user->createToken("devoo")->plainTextToken;
-        return response()->json([
-            'token' => $token
-        ]);
-        // TODO : Sending User Data With Token  ;
+        $user_data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ];
 
+        return response()->json([
+            'token' => $token,
+            'user' => $user_data
+        ]);
 
     }
 
@@ -75,13 +89,13 @@ class CustomerController extends Controller
     {
         if ($request->input('email')) {
             return response()->json([
-                'Error' => "No"
-            ]);
+                'Error' => "You're not allowed to update email"
+            ], 422);
         } else {
             $userId = auth('sanctum')->user()->id ;
             return response()->json([
                 'Your Id ' => $userId ,
-                'Success' => "Everything OK"
+                'Success' => "Your profile has been updated"
             ]);
         }
     }

@@ -21,4 +21,10 @@ class Pharmacy extends Model
     {
         return $this->morphMany(User::class, 'userable');
     }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+    
 }

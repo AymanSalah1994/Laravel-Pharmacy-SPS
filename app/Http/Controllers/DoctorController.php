@@ -40,9 +40,11 @@ class DoctorController extends Controller
 
             if ($userFarmacist) {
 
-                $allDoctors = $allDoctors->where('doctors.pharmacy_id', $userFarmacist->id);
-               // $allDoctors = Doctor::where('pharmacy_id', $userFarmacist->id);
-
+               //  $allDoctors = $allDoctors->where('doctors.pharmacy_id', $userFarmacist->id);
+             $allDoctors = Doctor::where("pharmacy_id", $userFarmacist->id)
+             ->join('users', 'users.userable_id', '=', 'doctors.id')
+             ->where('userable_type', "App\Models\Doctor")
+             ->get();
             }
 
             return DataTables::of($allDoctors)

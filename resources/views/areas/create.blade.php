@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    This is Create Medicine
+    @include('layouts.creation-forms.area')
 @endsection
 
 @section('scripts')

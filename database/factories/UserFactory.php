@@ -12,16 +12,15 @@ class UserFactory extends Factory
 {
     public function definition(): array
     {
-        $randomModelId = "" ; 
-        $randomModelType = "" ; 
+        $randomModelId = "" ;
+        $randomModelType = "" ;
         // Create Random Model User Admin/Doctor/Customer/Pharmacy
-        // Assign Role Based On Model 
-        // Fill REST common "user" Data 
-        // Create that User 
-        // 
+        // Assign Role Based On Model
+        // Fill REST common "user" Data
+        // Create that User
+        //
         return [
             'name' => fake()->name(),
-            
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

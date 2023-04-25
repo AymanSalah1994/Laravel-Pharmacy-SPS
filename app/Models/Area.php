@@ -9,6 +9,10 @@ class Area extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'country_id',
+    ];
     public function userAddresses()
     {
         return $this->hasMany(UserAddress::class);

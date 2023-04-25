@@ -1,7 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    This is Edit Phoarma
+
+@include('layouts.update-forms.pharmacy')
+
 @endsection
 
 @section('scripts')
