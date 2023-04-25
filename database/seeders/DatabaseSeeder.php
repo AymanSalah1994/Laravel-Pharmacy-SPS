@@ -20,10 +20,13 @@ class DatabaseSeeder extends Seeder
         // ]);
         //  Make the Loop For a Number Of Time If you want
         $this->call([
-            RolesSeeder::class,
-            AdminSeeder::class,
-            PharmacySeeder::class,
-            DoctorSeeder::class,
+            // RolesSeeder::class, //1 
+            // AdminSeeder::class, // 2 
+            // PharmacySeeder::class, //3 
+            // DoctorSeeder::class, // 4 
+            CountriesSeeder::class, // 4 
         ]);
+        // $this->call('CountriesSeeder');
+        $this->command->info('Seeded the countries!');
     }
 }
