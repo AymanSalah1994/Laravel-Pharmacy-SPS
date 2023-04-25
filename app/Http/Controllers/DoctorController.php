@@ -11,7 +11,7 @@ use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Contracts\Encryption\DecryptException;
 class DoctorController extends Controller
 {
     public function index(Request $request)
@@ -21,7 +21,7 @@ class DoctorController extends Controller
         $userType = $user->userable_type;
         $userFarmacist  = false;
         if ($userType == "App\Models\Pharmacy") {
-            $userFarmacist = Pharmacy::find($user->userable_id)->first();  // Pharmacy Model instance 
+            $userFarmacist = Pharmacy::where('id',$user->userable_id)->first();  // Pharmacy Model instance 
         }
 
         if ($request->ajax()) {
@@ -41,6 +41,8 @@ class DoctorController extends Controller
             if ($userFarmacist) {
 
                 $allDoctors = $allDoctors->where('doctors.pharmacy_id', $userFarmacist->id);
+               // $allDoctors = Doctor::where('pharmacy_id', $userFarmacist->id);
+
             }
 
             return DataTables::of($allDoctors)
@@ -101,8 +103,15 @@ class DoctorController extends Controller
      */
     public function store(DoctorRequest $request)
     {
+
+        $user = Auth::user();
+      //  dd($user);
+        $userParmacist = Pharmacy::where(
+            'id',$user->userable_id )->first();
+
         $doctor = new Doctor();
         $doctor->national_id  = $request->input('national_id');
+        $doctor->pharmacy_id = $userParmacist->id;
         if ($request->hasFile('avatar_image')) {
             $file = $request->file('avatar_image');
             $doctor->avatar_image = 'ava-' . time() . '.' . $file->getClientOriginalExtension();

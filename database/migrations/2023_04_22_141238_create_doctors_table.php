@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string("national_id");
             $table->string("avatar_image");
-            // $table->foreignId('pharmacy_id')->references('id')->on('pharmacies')->onDelete('cascade')->default(1);
-            $table->integer("pharmacy_id")->default(1) ; 
+            $table->foreignId('pharmacy_id')->references('id')->on('pharmacies')->onDelete('cascade')->default(1);
+          //  $table->integer("pharmacy_id")->default(1) ; 
             $table->boolean('is_banned')->default(0);
             $table->timestamps();
         });
