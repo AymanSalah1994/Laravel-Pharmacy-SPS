@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+
+/**
+ * Summary of UserAddressController
+ */
 class UserAddressController extends Controller
 {
     public function index(Request $request)
@@ -12,7 +16,7 @@ class UserAddressController extends Controller
         if ($request->ajax()) {
             $allAddresses = UserAddress::query();
             if ($request->searchkeyWord) {
-                $allAddresses = $allAddresses->where('name', 'LIKE', "%{$request->searchkeyWord}%");
+                $allAddresses = $allAddresses->where('id', 'LIKE', "%{$request->searchkeyWord}%");
                 // TODO 
                 // name >> Street Name 
             }
@@ -87,15 +91,13 @@ class UserAddressController extends Controller
         return redirect()->route('medicines.index')->with('status', 'Medicine Updated Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        // $deletedMedicine = Medicine::find($medicine)->first();
-        // $deletedMedicine->delete();
-        // return response()->json([
-            // 'success' => 'Record deleted successfully!'
-        // ]);
+        $deletedAddress = UserAddress::find($id)->first();
+        $deletedAddress->delete();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 }

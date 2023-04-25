@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePharmacyRequest;
 use App\Http\Requests\UpdatePharmacyRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 

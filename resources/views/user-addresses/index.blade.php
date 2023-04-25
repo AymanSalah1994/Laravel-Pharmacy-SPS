@@ -27,7 +27,7 @@
 @section('scripts')
     <script>
         function myFunction(formId, formToken) {
-            let result = confirm("Are you Sure you Want to Delete ? ");
+            let result = confirm("Are you Sure you Want to Delete This Area ? ");
             console.log(result);
             if (result) {
                 let form = document.getElementById(formId);
@@ -136,4 +136,15 @@
             }
         });
     </script>
+    @if ($status = session('status'))
+        <script>
+            Toastify({
+                text: '{{ $status }}',
+                duration: 3000,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
+        </script>
+    @endif
 @endsection
