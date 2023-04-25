@@ -49,13 +49,15 @@ class DoctorController extends Controller
                     if ($allDoctors->deleted_at) {
                         $deleteOrRestore = "Restore";
                     }
-                    if($allDoctors->is_banned==0){
+                    if ($allDoctors->is_banned == 0) {
                         $banORunban = "ban";
-                    }else{$banORunban = "unban";}
+                    } else {
+                        $banORunban = "unban";
+                    }
                     $showLink  = route('doctors.show', $allDoctors->id);
                     $editLink  = route('doctors.edit', $allDoctors->id);
                     $deleteLink  = route('doctors.destroy', $allDoctors->id);
-                    $banLink = route('doctors.ban', $allDoctors->id); 
+                    $banLink = route('doctors.ban', $allDoctors->id);
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
@@ -127,13 +129,13 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        $doctor=Doctor::findOrFail($id);
-        $userDoctor=User::where([
+        $doctor = Doctor::findOrFail($id);
+        $userDoctor = User::where([
             ['userable_id', $id],
             ['userable_type', 'App\Models\Doctor']
         ])->get();
-        $userDR =$userDoctor[0];
-        return view('doctor.show')->with(compact('doctor','userDR'));
+        $userDR = $userDoctor[0];
+        return view('doctor.show')->with(compact('doctor', 'userDR'));
     }
 
     /**
@@ -141,49 +143,48 @@ class DoctorController extends Controller
      */
     public function edit(string $id)
     {
-        $doctor=Doctor::findOrFail($id);
-        $userDoctor=User::where([
+        $doctor = Doctor::findOrFail($id);
+        $userDoctor = User::where([
             ['userable_id', $id],
             ['userable_type', 'App\Models\Doctor']
         ])->get();
-        $userDR =$userDoctor[0];
-       // dd($userDoctor[0]);
-        return view('doctor.edit')->with(compact('doctor','userDR'));
+        $userDR = $userDoctor[0];
+        // dd($userDoctor[0]);
+        return view('doctor.edit')->with(compact('doctor', 'userDR'));
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(DoctorRequest $request, string $id)
     {
- 
-        $doctor=Doctor::findOrFail($id);
-        $userDoctor=User::where([
+
+        $doctor = Doctor::findOrFail($id);
+        $userDoctor = User::where([
             ['userable_id', $id],
             ['userable_type', 'App\Models\Doctor']
         ])->get();
-        $userDR =$userDoctor[0];
-        if($doctor){
+        $userDR = $userDoctor[0];
+        if ($doctor) {
             $doctor->national_id = $request->national_id;
             // $doctor->avatar_image = $request->avatar_image;
             // $doctor->is_banned = $request->is_banned;
         }
-        if($userDR){
-            $userDR->name= $request->name;
-            $userDR->email= $request->email;
-            $userDR->password= $request->password;
+        if ($userDR) {
+            $userDR->name = $request->name;
+            $userDR->email = $request->email;
+            $userDR->password = $request->password;
         }
         $doctor->save();
         $userDR->save();
-       return redirect()->route('doctors.index')->with('status', 'DR Updated Successfully');
-
+        return redirect()->route('doctors.index')->with('status', 'DR Updated Successfully');
     }
 
     public function ban(string $id)
     {
-        $doctor=Doctor::findOrFail($id);
+        $doctor = Doctor::findOrFail($id);
 
         if ($doctor->is_banned == 1) {
             $doctor->is_banned = 0;
@@ -192,7 +193,7 @@ class DoctorController extends Controller
             $doctor->is_banned = 1;
             $message = 'Doctor banned successfully';
         }
-    
+
         $doctor->save();
 
         return response()->json([
@@ -200,18 +201,18 @@ class DoctorController extends Controller
             'message' => $message
         ]);
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $doctor=Doctor::findOrFail($id);
-        $userDoctor=User::where([
+        $doctor = Doctor::findOrFail($id);
+        $userDoctor = User::where([
             ['userable_id', $id],
             ['userable_type', 'App\Models\Doctor']
         ])->get();
-        $userDR =$userDoctor[0];
+        $userDR = $userDoctor[0];
 
         $doctor->delete();
         $userDR->delete();
