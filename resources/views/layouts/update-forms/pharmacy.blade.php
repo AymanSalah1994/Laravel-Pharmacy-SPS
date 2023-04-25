@@ -44,8 +44,11 @@
                         <p class="text-danger mt-1">{{ $message }}</p>
                     @enderror 
             </div>
-          
+         
             <div class="row">
+            @if(Auth::user()->hasRole('admin'))
+            
+
                 <div class="form-group col-6">
                     <label for="exampleInputEmail1">Area</label>
                     <!-- <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Area ID"
@@ -69,14 +72,42 @@
              
                 <div class="form-group col-6">
                     <label for="exampleInputEmail1">Priority</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
+                    <input type="text" class="form-control" id="exampleInputEmail1" 
                         name="priority"value="{{ $pharmacy->priority}}">
                         @error('priority')
                         <p class="text-danger mt-1">{{ $message }}</p>
                           @enderror 
                 </div>
             </div>
+           
 
+            @else
+            <div class="form-group col-6">
+                    <label for="exampleInputEmail1">Area</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Area ID"
+                        name="area_id" value="{{ $pharmacy->area->id}}" hidden>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Area ID"
+                        name="area_id" value="{{ $pharmacy->area->name}}" disabled>
+                        @error('area_id')
+                        <p class="text-danger mt-1">{{ $message }}</p>
+                          @enderror 
+                </div>
+             
+                <div class="form-group col-6">
+                    <label for="exampleInputEmail1">Priority</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" 
+                        name="priority" value="{{ $pharmacy->priority}}" hidden>
+                    <input type="text" class="form-control" id="exampleInputEmail1" 
+                        name="priority" value="{{ $pharmacy->priority}}" disabled>
+                        @error('priority')
+                        <p class="text-danger mt-1">{{ $message }}</p>
+                          @enderror 
+                </div>
+            </div>
+
+            @endif
+         
+                
             <div class="form-group">
                 <label for="exampleInputFile">Avatar Image</label>
                 <div class="input-group">
