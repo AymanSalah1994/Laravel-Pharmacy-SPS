@@ -28,7 +28,8 @@ class CustomerController extends Controller
     {
         $message = "";
         $customer = new Customer();
-        $customer->dob  = $customerRequest->post('date_of_birth');
+        $customer->dob  = $customerRequest->post('dob');
+        $customer->gender  = $customerRequest->post('gender');
         $customer->national_id  = $customerRequest->post('national_id');
         $customer->profile_image = $customerRequest->file('profile_image');
         $customer->mobile_number  = $customerRequest->post('mobile_number');

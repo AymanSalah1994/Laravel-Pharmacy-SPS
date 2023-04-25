@@ -26,5 +26,5 @@ Route::post('/orders' , [OrderController::class , 'store']);
 Route::get('/orders/{order}' , [OrderController::class , 'show']);
 // Route::post('/orders/{order}' , [OrderController::class , 'update']);
 
-// Put 
-// TODO > The Update 
+// Put
+// TODO > The Update
