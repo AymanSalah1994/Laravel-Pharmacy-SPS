@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\UserAddressController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,3 +42,4 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/areas', AreaController::class);
+Route::resource('/useraddresses', UserAddressController::class);

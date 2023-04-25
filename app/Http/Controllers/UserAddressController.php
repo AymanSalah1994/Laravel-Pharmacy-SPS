@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MedicineRequest;
-use App\Models\Medicine;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 
-class MedicineController extends Controller
+class UserAddressController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         if ($request->ajax()) {
             $allMedicines = Medicine::query();
@@ -41,33 +41,46 @@ class MedicineController extends Controller
                 ->make(true);
         }
         return view('medicine.index');
-    } //End of Index 
+    }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return view('medicine.create');
+        // No Creation , A User Creates It Himself 
     }
 
-    public function store(MedicineRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        $allRequestData = $request->handleRequest();
-        Medicine::create($allRequestData);
-        return redirect()->route("medicines.index")->with('status', 'Medicine Created Successfully');
+        // Related To Create 
     }
 
-    public function show(Medicine $medicine)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        $m = Medicine::find($medicine)->first();
-        return view('medicine.show', compact('m'));
+        // Later TODO 
+        // TODO
     }
 
-    public function edit(Medicine $medicine)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         $med = Medicine::findOrFail($medicine->id);
         return view('medicine.edit', compact('med'));
     }
 
-    public function update(MedicineRequest $request, Medicine $medicine)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
         $allRequestedData = $request->handleRequest();
         $medicine = Medicine::findOrFail($medicine->id);
@@ -75,7 +88,10 @@ class MedicineController extends Controller
         return redirect()->route('medicines.index')->with('status', 'Medicine Updated Successfully');
     }
 
-    public function destroy(Medicine $medicine)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
         $deletedMedicine = Medicine::find($medicine)->first();
         $deletedMedicine->delete();
