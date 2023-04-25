@@ -49,12 +49,18 @@ class DoctorController extends Controller
                     if ($allDoctors->deleted_at) {
                         $deleteOrRestore = "Restore";
                     }
+                    if($allDoctors->is_banned==0){
+                        $banORunban = "ban";
+                    }else{$banORunban = "unban";}
                     $showLink  = route('doctors.show', $allDoctors->id);
                     $editLink  = route('doctors.edit', $allDoctors->id);
                     $deleteLink  = route('doctors.destroy', $allDoctors->id);
+                    $banLink = route('doctors.ban', $allDoctors->id); 
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
+                    $BAN = $myField . "<input type=\"hidden\" name=\"_method\" value=\"PUT\"> ";
+
                     // CSRF_field NOT TOKEN 
                     return
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
@@ -63,11 +69,17 @@ class DoctorController extends Controller
                         <a onclick=\"myFunction($allDoctors->id , '$myToken' ) \" class=\"btn btn-danger\">
                         $deleteOrRestore
                         </a>
-
+                        <a  onclick=\"banDoctor( $allDoctors->id  , '$myToken')\" class=\"btn btn-danger\">
+                         $banORunban
+                        </a>
                         <form id=$allDoctors->id action=$deleteLink method='POST'
                             style=display: hidden class='form-inline'>
                             $DEL
-                        </form>";
+                        </form>
+                        <form id='$allDoctors->id' action='$banLink' method='POST'
+                        style=display: hidden class='form-inline'>
+                        $BAN
+                       </form>";
                 })
                 ->make(true);
         }
@@ -139,6 +151,8 @@ class DoctorController extends Controller
         return view('doctor.edit')->with(compact('doctor','userDR'));
     }
 
+    
+
     /**
      * Update the specified resource in storage.
      */
@@ -167,6 +181,26 @@ class DoctorController extends Controller
 
     }
 
+    public function ban(string $id)
+    {
+        $doctor=Doctor::findOrFail($id);
+
+        if ($doctor->is_banned == 1) {
+            $doctor->is_banned = 0;
+            $message = 'Doctor unbanned successfully';
+        } else {
+            $doctor->is_banned = 1;
+            $message = 'Doctor banned successfully';
+        }
+    
+        $doctor->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => $message
+        ]);
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
@@ -178,7 +212,7 @@ class DoctorController extends Controller
             ['userable_type', 'App\Models\Doctor']
         ])->get();
         $userDR =$userDoctor[0];
-        
+
         $doctor->delete();
         $userDR->delete();
         return response()->json([

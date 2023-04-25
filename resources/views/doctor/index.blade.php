@@ -54,6 +54,25 @@
             }
         }
 
+        function banDoctor(doctorId , formToken) {
+        $.ajax({
+        url: '/doctors/ban/' + doctorId,
+        type: 'POST',
+        data: {
+            'doctor_id': doctorId,
+            '_token': formToken,
+        },
+        success: function(response) {
+            console.log(response);
+            location.reload();
+
+        },
+        error: function(xhr) {
+            console.log(xhr.responseText);
+        }
+    });
+}
+
         var myTable = $('#koko');
         var cols = [{
                 data: 'id',

@@ -23,7 +23,7 @@ Route::get('/dash', function () {
 Route::resource('/doctors', DoctorController::class);
 Route::resource('/pharmacies', PharmacyController::class);
 
-
+Route::post('/doctors/ban/{doctor}',[DoctorController::class, 'ban'])->name('doctors.ban');
 
 
 
