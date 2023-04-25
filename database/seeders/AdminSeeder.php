@@ -31,14 +31,5 @@ class AdminSeeder extends Seeder
         $userAdmin->password = Hash::make('123456');
         $newAdmin->users()->save($userAdmin);
         // JUST One Admin So I will Leave it !!
-
-        // User::factory(1)->create() ;
-        // DB::table('admins')->insert([
-        // 'name'       => 'Admin',
-        // 'email'      => 'admin@admin.com',
-        // 'password'   => Hash::make('123456'),
-        // 'created_at' => now(),
-        // 'updated_at' => now(),
-        // ]);
     }
 }

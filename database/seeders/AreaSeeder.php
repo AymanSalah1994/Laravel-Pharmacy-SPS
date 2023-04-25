@@ -2,15 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Medicine;
+use App\Models\Area;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MedicineSeeder extends Seeder
+class AreaSeeder extends Seeder
 {
     public function run(): void
     {
-        //
-        Medicine::factory(10)->create();
+        Area::factory(10)->create();
     }
 }

@@ -25,19 +25,27 @@ composer dump-autoload
   php artisan migrate
 ```
 
-php artisan migrate:fresh
+```bash
+  php artisan migrate:fresh
+```
 If Needed
 
+```bash
+  php artisan storage:link
+```
+7- Remove Any Storage Links and Links Again : If needed 
+
+```bash
+  php artisan db:seed
+```
 5- You Will Need To seed "Roles(MUST) , Admin and Maybe Pharmacy "
-Just Seed the DataBase :
-$ php artisan db:seed
+
 // TODO : Making each Seeder Take From the Lever Above 
-To Create More than One Phamracy Or Doctor You can Specify the Class
-// TODO > Making Facotry For Big Number
 
 6-To Run the Event Of Verification Don't Forget to "Work" the Queue ;
+```bash
+  php artisan queue:work
+```
 
-7- Remove Any Storage Links and Links agaign :
-php artisan storage:link
-For Local Storage ;
-% TODO Changing Timestamp later 
+
+// TODO Changing Timestamp later 

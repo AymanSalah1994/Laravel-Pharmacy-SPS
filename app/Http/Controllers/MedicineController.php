@@ -73,7 +73,6 @@ class MedicineController extends Controller
         $medicine = Medicine::findOrFail($medicine->id);
         $medicine->update($allRequestedData);
         return redirect()->route('medicines.index')->with('status', 'Medicine Updated Successfully');
-
     }
 
     public function destroy(Medicine $medicine)
