@@ -129,8 +129,7 @@ class PharmacyController extends Controller
       
         )->get();
         $userPharmacy =  $userPharma[0];
-        //    dd($pharmacy->users);
-            // $this->authorize('view', $pharmacy);
+        
             return view('pharmacy.show' , compact('pharmacy','userPharmacy'));
         
     }
@@ -146,8 +145,7 @@ class PharmacyController extends Controller
       
         )->get();
         $userPharmacy =  $userPharma[0];
-        //    dd($pharmacy->users);
-            // $this->authorize('view', $pharmacy);
+       
             return view('pharmacy.show' , compact('userPharmacy'));
         
     }
@@ -221,35 +219,7 @@ class PharmacyController extends Controller
         
       
     }
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Pharmacy $pharmacy)
-    // {
-    //     // dd($pharmacy);
-    //     $deletedPharmacy = Pharmacy::find($pharmacy)->first();
-    //     $userPharmacy = User::where([
-    //         ['userable_id', $pharmacy],
-    //         ['userable_type', 'App\Models\Pharmacy']
-    //     ])->first();
-    //         $userPharmacy->delete();
-    //     $deletedPharmacy->delete();
-
-        
-    //     return response()->json([
-    //         'success' => 'Record deleted successfully!'
-    //     ]);
-
-    //     // TODO , Delete ALSO From User Table Model 
-    // }
+   
     public function destroy(string $id)
     {
      
