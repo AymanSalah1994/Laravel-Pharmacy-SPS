@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PharmacyController;
@@ -33,3 +34,4 @@ Route::get('/pharma/restoreAll', [PharmacyController::class, 'restoreAll'])->nam
 
 
 Route::resource('/medicines', MedicineController::class);
+Route::resource('/customers', CustomerController::class);
