@@ -32,14 +32,18 @@ class CustomerController extends Controller
         $customer->national_id  = $customerRequest->post('national_id');
         $customer->profile_image = $customerRequest->file('profile_image');
         $customer->mobile_number  = $customerRequest->post('mobile_number');
-        // TODO:
-        // Password Confirmation
 
         $userCustomer  = new User();
         $userCustomer->assignRole('user');
         $userCustomer->name = $request->post('name');
         $userCustomer->email = $request->post('email');
         $userCustomer->password = Hash::make($request->post('password'));
+        // Password Confirmation
+        if ($request->post('password') !== $request->post('confirm_password')) {
+            return response()->json([
+                'message' => 'The password confirmation does not match.'
+            ], 422);
+        }
         $customer->users()->save($userCustomer);
         // event(new Registered($userCustomer));
         $userCustomer->sendEmailVerificationNotification();
