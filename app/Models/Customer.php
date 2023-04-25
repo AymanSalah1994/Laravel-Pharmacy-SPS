@@ -26,7 +26,7 @@ class Customer extends Model
     public function setImageAttribute($value)
     {
         $attribute_name = "profile_image";
-        $destination_path = public_path('/dist/img/customers');
+        $destination_path = public_path('/storage/customers');
         $profileImage = $value;
         $profileImageSaveAsName = time() . "-{$attribute_name}." . $profileImage->getClientOriginalExtension();
         $profile_image_url = $destination_path . $profileImageSaveAsName;
@@ -40,7 +40,6 @@ class Customer extends Model
         if ($value) {
             // delete old image
             $this->deleteImage();
-
             $name = $this->setImageAttribute($value);
             return $name;
         }

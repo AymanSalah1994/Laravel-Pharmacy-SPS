@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 
 
 class CustomerController extends Controller
@@ -92,7 +93,19 @@ class CustomerController extends Controller
                 'Error' => "You're not allowed to update email"
             ], 422);
         } else {
+            // Validate the incoming request data
+            $request->validate([
+                'name' => ['string', 'max:255'],
+                'password' => ['string', 'min:8', 'confirmed'],
+                'gender' =>  Rule::in(['male', 'female']),
+                'dob' => 'date',
+                'national_id' => [ 'string', 'min:11', 'max:11'],
+                'profile_image' => [ 'image', 'max:2048'],
+                'mobile_number' => [ 'string', 'regex:/^[0-9]{10}$/'],
+            ]);
+
             $userId = auth('sanctum')->user()->id ;
+
             return response()->json([
                 'Your Id ' => $userId ,
                 'Success' => "Your profile has been updated"
