@@ -89,13 +89,13 @@ class CustomerController extends Controller
     {
         if ($request->input('email')) {
             return response()->json([
-                'Error' => "No"
-            ]);
+                'Error' => "You're not allowed to update email"
+            ], 422);
         } else {
             $userId = auth('sanctum')->user()->id ;
             return response()->json([
                 'Your Id ' => $userId ,
-                'Success' => "Everything OK"
+                'Success' => "Your profile has been updated"
             ]);
         }
     }
