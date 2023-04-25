@@ -97,7 +97,7 @@ class DoctorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DoctorRequest $request)
     {
         $doctor = new Doctor();
         $doctor->national_id  = $request->input('national_id');
@@ -106,7 +106,6 @@ class DoctorController extends Controller
             $doctor->avatar_image = 'ava-' . time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('images', $doctor->avatar_image);
             $doctor->save();
-            // TODO: Something Wrong with Files (Ubuntu Windows ?)
         } else {
             $doctor->avatar_image = "1.jpg"; //Default 
             $doctor->save();

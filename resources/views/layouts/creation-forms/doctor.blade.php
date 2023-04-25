@@ -9,21 +9,33 @@
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name"
                     name="name">
+                    @error('name')
+                    <span style="color: red">{{ $message }}</span>
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
                     name="email">
+                    @error('email')
+                    <span style="color: red">{{ $message }}</span>
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
                     name="password">
+                    @error('password')
+                    <span style="color: red">{{ $message }}</span>
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">National ID </label>
                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email"
                     name="national_id">
+                    @error('national_id')
+                    <span style="color: red">{{ $message }}</span>
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputFile">Avatar Image</label>

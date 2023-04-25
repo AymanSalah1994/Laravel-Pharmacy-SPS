@@ -33,7 +33,8 @@ class DoctorRequest extends FormRequest
             //                      ->where('userable_type', 'App\Models\Doctor');
             //     }),
             // ],
-            'national_id'=>'required|integer|min:8',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'national_id'=>'required|integer|min:8|unique:doctors',
             'password'=>'required|min:5'
         ];
     }
@@ -44,9 +45,11 @@ class DoctorRequest extends FormRequest
         "email.required" => 'The email is required',
         "password.required" => 'The password is required',
         "national_id.required" => 'The national_id is required',
-        // "email.unique" => 'email must be unique',
+        "email.unique" => 'email must be unique',
         "password.min" => 'The password is minmum 5 length',
-        "national_id.min" => 'The password is minmum 8 length',
+        "national_id.min" => 'The national_id  is minmum 8 length',
+        "national_id.unique" => 'The national_id  is unique ',
+
     ];
     }
 }
