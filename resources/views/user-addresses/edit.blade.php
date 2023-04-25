@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    This is Edit Medicine
+    This is Edit User Address 
 @endsection
 
 @section('scripts')

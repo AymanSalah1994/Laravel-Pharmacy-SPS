@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
-
+use Yajra\DataTables\Facades\DataTables;
 class UserAddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
         if ($request->ajax()) {
-            $allMedicines = Medicine::query();
+            $allAddresses = UserAddress::query();
             if ($request->searchkeyWord) {
-                $allMedicines = $allMedicines->where('name', 'LIKE', "%Prof%");
-                // {$request->searchkeyWord}
+                $allAddresses = $allAddresses->where('name', 'LIKE', "%{$request->searchkeyWord}%");
+                // TODO 
+                // name >> Street Name 
             }
-            $allMedicines = $allMedicines->get();
-            return DataTables::of($allMedicines)
-                ->addColumn('action', function ($allMedicines) {
-                    $showLink  = route('medicines.show', $allMedicines->id);
-                    $editLink  = route('medicines.edit', $allMedicines->id);
-                    $deleteLink  = route('medicines.destroy', $allMedicines->id);
+            $allAddresses = $allAddresses->get();
+            return DataTables::of($allAddresses)
+                ->addColumn('action', function ($allAddresses) {
+                    $showLink  = route('useraddresses.show', $allAddresses->id);
+                    $editLink  = route('useraddresses.edit', $allAddresses->id);
+                    $deleteLink  = route('useraddresses.destroy', $allAddresses->id);
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
@@ -30,17 +29,17 @@ class UserAddressController extends Controller
                     return
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
                         <a href=$editLink class=\"btn btn-warning\" >Edit</a>
-                        <a onclick=\"myFunction($allMedicines->id , '$myToken' ) \" class=\"btn btn-danger\">
+                        <a onclick=\"myFunction($allAddresses->id , '$myToken' ) \" class=\"btn btn-danger\">
                         Delete
                         </a>
-                        <form id=$allMedicines->id action=$deleteLink method='POST'
+                        <form id=$allAddresses->id action=$deleteLink method='POST'
                             style=display: hidden class='form-inline'>
                             $DEL
                         </form>";
                 })
                 ->make(true);
         }
-        return view('medicine.index');
+        return view('user-addresses.index');
     }
 
     /**
@@ -73,7 +72,7 @@ class UserAddressController extends Controller
      */
     public function edit(string $id)
     {
-        $med = Medicine::findOrFail($medicine->id);
+        // $med = Medicine::findOrFail($medicine->id);
         return view('medicine.edit', compact('med'));
     }
 
@@ -83,8 +82,8 @@ class UserAddressController extends Controller
     public function update(Request $request, string $id)
     {
         $allRequestedData = $request->handleRequest();
-        $medicine = Medicine::findOrFail($medicine->id);
-        $medicine->update($allRequestedData);
+        // $medicine = Medicine::findOrFail($medicine->id);
+        // $medicine->update($allRequestedData);
         return redirect()->route('medicines.index')->with('status', 'Medicine Updated Successfully');
     }
 
@@ -93,10 +92,10 @@ class UserAddressController extends Controller
      */
     public function destroy(string $id)
     {
-        $deletedMedicine = Medicine::find($medicine)->first();
-        $deletedMedicine->delete();
-        return response()->json([
-            'success' => 'Record deleted successfully!'
-        ]);
+        // $deletedMedicine = Medicine::find($medicine)->first();
+        // $deletedMedicine->delete();
+        // return response()->json([
+            // 'success' => 'Record deleted successfully!'
+        // ]);
     }
 }
