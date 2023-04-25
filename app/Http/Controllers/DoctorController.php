@@ -40,13 +40,13 @@ class DoctorController extends Controller
 
             if ($userFarmacist) {
 
-               //  $allDoctors = $allDoctors->where('doctors.pharmacy_id', $userFarmacist->id);
+               //    $allDoctors = $allDoctors->where('doctors.pharmacy_id', $userFarmacist->id);
              $allDoctors = Doctor::where("pharmacy_id", $userFarmacist->id)
              ->join('users', 'users.userable_id', '=', 'doctors.id')
              ->where('userable_type', "App\Models\Doctor")
              ->get();
-            }
 
+            }
             return DataTables::of($allDoctors)
                 ->addColumn('action', function ($allDoctors) {
                     $deleteOrRestore = "delete";
@@ -58,10 +58,10 @@ class DoctorController extends Controller
                     } else {
                         $banORunban = "unban";
                     }
-                    $showLink  = route('doctors.show', $allDoctors->id);
-                    $editLink  = route('doctors.edit', $allDoctors->id);
-                    $deleteLink  = route('doctors.destroy', $allDoctors->id);
-                    $banLink = route('doctors.ban', $allDoctors->id);
+                    $showLink  = route('doctors.show', $allDoctors->userable_id);
+                    $editLink  = route('doctors.edit', $allDoctors->userable_id);
+                    $deleteLink  = route('doctors.destroy', $allDoctors->userable_id);
+                    $banLink = route('doctors.ban', $allDoctors->userable_id);
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
@@ -72,10 +72,10 @@ class DoctorController extends Controller
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
                         <a href=$editLink class=\"btn btn-warning\" >Edit</a>
 
-                        <a onclick=\"myFunction($allDoctors->id , '$myToken' ) \" class=\"btn btn-danger\">
+                        <a onclick=\"myFunction($allDoctors->userable_id , '$myToken' ) \" class=\"btn btn-danger\">
                         $deleteOrRestore
                         </a>
-                        <a  onclick=\"banDoctor( $allDoctors->id  , '$myToken')\" class=\"btn btn-danger\">
+                        <a  onclick=\"banDoctor( $allDoctors->userable_id , '$myToken')\" class=\"btn btn-danger\">
                          $banORunban
                         </a>
                         <form id=$allDoctors->id action=$deleteLink method='POST'
@@ -88,7 +88,13 @@ class DoctorController extends Controller
                        </form>";
                 })
                 ->make(true);
+                
         }
+        // $allDoctors = Doctor::where("pharmacy_id", $userFarmacist->id)
+        // ->join('users', 'users.userable_id', '=', 'doctors.id')
+        // ->where('userable_type', "App\Models\Doctor")
+        // ->get();
+        // dd($allDoctors[0]->userable_id);
         return view('doctor.index');
     }
 
