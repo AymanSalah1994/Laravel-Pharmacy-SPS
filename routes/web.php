@@ -45,3 +45,6 @@ Route::resource('/customers', CustomerController::class);
 Route::resource('/areas', AreaController::class);
 Route::resource('/useraddresses', UserAddressController::class);
 Route::resource('/orders', OrderController::class);
+
+Route::get('/success', [OrderController::class, 'success'])->name('stripe.success');
+Route::get('/cancel', [OrderController::class, 'cancel'])->name('stripe.cancel');

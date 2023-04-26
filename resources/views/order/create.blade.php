@@ -34,6 +34,12 @@
                 </div>
 
                 <div class="form-group row">
+                    <label for="">Enter Quantites :</label>
+                    <select class="js-example-basic-multiple" name="quantities[]" multiple="multiple">
+                    </select>
+                </div>
+
+                <div class="form-group row">
                     <label for="">Enter Prices In cents:</label>
                     <select class="js-example-basic-multiple" name="prices[]" multiple="multiple">
                     </select>
@@ -45,6 +51,8 @@
                     <select class="js-example-basic-multiple" name="types[]" multiple="multiple">
                     </select>
                 </div>
+
+
             </div>
             <!-- /.card-body -->
             {{-- // TODO --}}
@@ -61,6 +69,7 @@
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2({
                 tags: true,
+                multiple: true,
             });
         });
     </script>
