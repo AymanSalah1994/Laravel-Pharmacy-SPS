@@ -20,6 +20,8 @@ return new class extends Migration
 
             $table->string('type')->default('capsule');
             $table->integer('quantity')->default('1');
+            $table->integer('price')->default(0);
+
             $table->timestamps();
         });
     }

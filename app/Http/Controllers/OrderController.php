@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\Order;
+use App\Models\OrderMedicine;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
@@ -13,35 +15,46 @@ class OrderController extends Controller
 {
     public function index()
     {
+        // $myId  = auth()->user()->id ;  
+        // $myStr = "Your ID is : $myId " ; 
+        // dd($myStr) ; 
         return view('order.index');
     }
 
     public function create()
     {
-        // What things To Take For "CREATE" ?? 
-        // userNames 
-        // 
         $customers = User::where('userable_type', 'App\Models\Customer')->get();
         $allMedicines  = Medicine::get();
         return view('order.create', compact(['customers', 'allMedicines']));
-    }
+    } // Create Ok 
 
-
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        // What To send And What to Recieve ??? 
-        // dd($request->all());
         $medArray = $request->medicines;
         $quantArray = $request->quantities;
         $priceArray = $request->prices;
         $typeArray = $request->types;
+        $bigArray  = [$medArray, $quantArray, $priceArray, $typeArray];
+        $sizeFlag  = false;
+        $initialSize = sizeof($medArray);
+
+        foreach ($bigArray as $arr) {
+            if (sizeof($arr) != $initialSize) {
+                $sizeFlag = true;
+            }
+        }
+
+        if ($sizeFlag) {
+            return redirect()->route('orders.create')->with('error', ' Sometyhing Wrong');
+        }
+
+        // else  is Below : 
         $totalPrice = 0;
         $spsLineItems = [];
         $stripe = new StripeClient(env('STRIPE_SECRET')); // 1- Create the CLient 
-
-        $orderID  = 4;
         for ($i = 0; $i < sizeof($medArray); $i++) {
             // TODO Calcualte TOtal Here and Put it >> Quanttiy * No.Items
+            $totalPrice = $totalPrice + ($priceArray[$i] * $quantArray[$i]);  //TODO
             $spsLineItems[] = [
                 'price_data' => [
                     'currency' => 'usd',
@@ -53,29 +66,54 @@ class OrderController extends Controller
                 'quantity' => $quantArray[$i],
             ];
         }
-        // 2 - Create the "Session " 
+
+        $newOrder = new Order();
+        $newOrder->status  = "New";
+        $newOrder->user_id =  auth()->user()->id; // creator_id
+        $newOrder->customer_id = $request->customer_id;
+        $newOrder->delivering_address_id = "1"; // TODO 
+        $newOrder->is_insured = true;  // TODO 
+        $newOrder->total_price = $totalPrice / 100;
+        $newOrder->save();
+        $orderID = $newOrder->id;
+
+
+        // TODO Sqlite instead of All those Problems ; 
+
+        for ($i = 0; $i < sizeof($medArray); $i++) {
+            if (is_numeric($medArray[$i])) {
+                $orderMedicine  =  new OrderMedicine();
+                $orderMedicine->order_id = $orderID;
+                $orderMedicine->medicine_id =  $medArray[$i];
+                $orderMedicine->type =  $typeArray[$i];
+                $orderMedicine->quantity =  $quantArray[$i];
+                $orderMedicine->price = $priceArray[$i];
+                $orderMedicine->save();
+            } else {
+                $newlyCreatedMedicine  = new Medicine();
+                $newlyCreatedMedicine->name  = $medArray[$i];
+                $newlyCreatedMedicine->price = $priceArray[$i];
+                $newlyCreatedMedicine->save();
+                $newMedId  = $newlyCreatedMedicine->id;
+                // Save 
+                $orderMedicine  =  new OrderMedicine();
+                $orderMedicine->order_id = $orderID;
+                $orderMedicine->medicine_id =  $newMedId;
+                $orderMedicine->type =  $typeArray[$i];
+                $orderMedicine->quantity =  $quantArray[$i];
+                $orderMedicine->price = $priceArray[$i];
+                $orderMedicine->save();
+            }
+        }
+        // 4242424242424242	Succeeds and immediately processes the payment.
+        // 4000000000003220	Complete 3D Secure 2 authentication for a successful payment.
+        // 4000000000009995	Always fails with a decline code of insufficient_funds.
         $checkout_session = $stripe->checkout->sessions->create([
             'line_items' => $spsLineItems,
             'mode' => 'payment',
             'success_url' => route('stripe.success', [], true) . "?orderID=$orderID",
             'cancel_url' => route('stripe.cancel', [], true),
         ]);
-
-
-        // todo >>  SAVE THE Order Here and Make New Model instance 
-        // Put the Status > Uncofirmed TIll the Success 
-        // TODO Sqlite instead of All those Problems ; 
-
-        // $newOrder  = new Order() ; 
-        // $newOrder->status  = "NEW" ; 
-        // $newOrder->stripe_session_id  =  $checkout_session->id  ; 
-        // And So on ...
-
-        // 4242424242424242	Succeeds and immediately processes the payment.
-        // 4000000000003220	Complete 3D Secure 2 authentication for a successful payment.
-        // 4000000000009995	Always fails with a decline code of insufficient_funds.
-
-
         return redirect($checkout_session->url); // 3- Redirect 
     }
 

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->boolean("is_insured");
             $table->string("status")->default("New");
             $table->decimal("total_price")->default(0); 
-            $table->string('stripe_session_id')->nullable() ; 
             $table->timestamps();
         });
     }
