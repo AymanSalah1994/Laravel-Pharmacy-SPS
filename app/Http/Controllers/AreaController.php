@@ -15,8 +15,7 @@ class AreaController extends Controller
         if ($request->ajax()) {
             $allAreas = Area::query();
             if ($request->searchkeyWord) {
-                $allAreas = $allAreas->where('name', 'LIKE', "%Prof%");
-                // {$request->searchkeyWord}
+                $allAreas = $allAreas->where('name', 'LIKE', "%{$request->searchkeyWord}%");
             }
             $allAreas = $allAreas->get();
             return DataTables::of($allAreas)
@@ -27,22 +26,17 @@ class AreaController extends Controller
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
-                    // CSRF_field NOT TOKEN 
-                    return
-                        "<a href=$showLink class=\"btn btn-primary\" >Show</a>
-                        <a href=$editLink class=\"btn btn-warning\" >Edit</a>
-                        <a onclick=\"myFunction($allAreas->id , '$myToken' ) \" class=\"btn btn-danger\">
-                        Delete
-                        </a>
-                        <form id=$allAreas->id action=$deleteLink method='POST'
-                            style=display: hidden class='form-inline'>
-                            $DEL
-                        </form>";
+                    $showButton  = "<a href=$showLink class=\"btn btn-primary\" >Show</a>";
+                    $editButton  = " <a href=$editLink class=\"btn btn-warning\" >Edit</a>";
+                    $deleteButton  = " <a onclick=\"myFunction($allAreas->id , '$myToken' ) \" class=\"btn btn-danger\">Delete</a>";
+                    $deleteForm = "<form id=$allAreas->id action=$deleteLink method='POST'
+                    style=display: hidden class='form-inline'> $DEL</form>";
+                    return "$showButton $editButton $deleteButton $deleteForm";
                 })
                 ->make(true);
         }
         return view('areas.index');
-    } //End of Index 
+    } //End of Index
 
     public function create()
     {
@@ -57,11 +51,12 @@ class AreaController extends Controller
         return redirect()->route("areas.index")->with('status', 'Area Created Successfully');
     }
 
-    public function show(Area $area)
+    public function show(string $id)
     {
-        // TODO
-        // $m = Medicine::find($medicine)->first();
-        // return view('areas.show', compact('m'));
+        $area = new Area();
+        $area = Area::find($id);
+        $areas = Area::where('country_id', $area->country_id)->get();
+        return view('areas.show', compact('area', 'areas'));
     }
 
     public function edit(Area $area)

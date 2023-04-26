@@ -27,7 +27,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Orders
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>

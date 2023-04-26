@@ -23,4 +23,5 @@ class AreaRequest extends FormRequest
         $allRequestData = $this->validated();
         return $allRequestData;
     }
+
 }

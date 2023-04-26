@@ -1,21 +1,23 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('pharmacies.create') }}" class="btn btn-primary">Create New Medicine</a>
+<p class="fw-bold bg-primary fs-4 p-2 d-flex justify-content-center mb-3">User Addresses List</p>
+
     <br>
-    <form action="" method="">
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="koko">
+    <table class="table table-bordered yajra-datatable" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Created At</th>
-                <th>National Id</th>
-                <th>Email</th>
-                <th>Is Banned</th>
-                <th>Avatar Image</th>
+                <th>Main Area ID</th>
+                <th>Customer Id </th>
+                <th>Street Name</th>
+                <th>Building Number</th>
+                <th>Floor Number</th>
+                <th>Flat Number</th>
+                <th>IS Main</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -27,13 +29,13 @@
 @section('scripts')
     <script>
         function myFunction(formId, formToken) {
-            let result = confirm("Are you Sure you Want to Delete ? ");
+            let result = confirm("Are you Sure you Want to Delete This Area ? ");
             console.log(result);
             if (result) {
                 let form = document.getElementById(formId);
                 // form.submit();
                 $.ajax({
-                    url: '/doctors/' + formId,
+                    url: '/useraddresses/' + formId,
                     type: 'DELETE',
                     data: {
                         "id": formId,
@@ -53,34 +55,37 @@
                 });
             }
         }
-
-        var myTable = $('#koko');
+        var myTable = $('#displayingTable');
         var cols = [{
                 data: 'id',
                 name: 'id'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'area_id',
+                name: 'area_id'
             },
             {
-                data: 'created_at',
-                name: 'created_at'
+                data: 'customer_id',
+                name: 'customer_id'
             },
             {
-                data: 'national_id',
-                name: 'national_id'
+                data: 'street_name',
+                name: 'street_name'
             },
             {
-                data: 'email',
-                name: 'email'
+                data: 'building_number',
+                name: 'building_number'
             },
             {
-                data: 'is_banned',
-                name: 'is_banned'
+                data: 'floor_number',
+                name: 'floor_number'
+            },
+            {
+                data: 'flat_number',
+                name: 'flat_number'
             }, {
-                data: 'avatar_image',
-                name: 'avatar_image'
+                data: 'is_main',
+                name: 'is_main'
             },
             {
                 data: 'action',
@@ -90,7 +95,7 @@
         let collections = {};
         $(document).ready(function() {
             //Initializing DataTables
-            let collectionsTable = $("#koko").dataTable({
+            let collectionsTable = $("#displayingTable").dataTable({
                 destroy: true,
                 "data": collections,
                 "columns": cols,
@@ -98,7 +103,7 @@
                 serverSide: true,
                 "searching": false,
                 ajax: {
-                    url: '/doctors',
+                    url: '/useraddresses',
                     type: 'GET',
                 },
             });
@@ -109,7 +114,7 @@
                 console.log("Search keyWord : " + ser);
                 $.ajax({
                     method: "GET",
-                    url: '/doctors',
+                    url: '/useraddresses',
                     dataType: 'json',
                     data: {
                         'searchkeyWord': ser,
@@ -122,10 +127,10 @@
             });
 
             function assignToEventsColumns(data) {
-                if ($.fn.DataTable.isDataTable("#koko")) {
-                    $('#koko').DataTable().clear().destroy();
+                if ($.fn.DataTable.isDataTable("#displayingTable")) {
+                    $('#displayingTable').DataTable().clear().destroy();
                 }
-                $("#koko").dataTable({
+                $("#displayingTable").dataTable({
                     "aaData": data.data,
                     "columns": cols,
                 });
@@ -133,4 +138,15 @@
             }
         });
     </script>
+    @if ($status = session('status'))
+        <script>
+            Toastify({
+                text: '{{ $status }}',
+                duration: 3000,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
+        </script>
+    @endif
 @endsection

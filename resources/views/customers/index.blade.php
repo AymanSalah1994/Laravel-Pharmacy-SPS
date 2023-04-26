@@ -1,10 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <form action="" method="">
+<p class="fw-bold bg-primary fs-4 p-2 d-flex justify-content-center mb-3">Customers Menu</p>
+
+<br>
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="koko">
+    <table class="table table-bordered yajra-datatable text-center shadow my-3" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -48,7 +51,7 @@
                 });
             }
         }
-        var myTable = $('#koko');
+        var myTable = $('#displayingTable');
         var cols = [{
                 data: 'id',
                 name: 'id'
@@ -72,7 +75,7 @@
         let collections = {};
         $(document).ready(function() {
             //Initializing DataTables
-            let collectionsTable = $("#koko").dataTable({
+            let collectionsTable = $("#displayingTable").dataTable({
                 destroy: true,
                 "data": collections,
                 "columns": cols,
@@ -103,10 +106,10 @@
             });
 
             function assignToEventsColumns(data) {
-                if ($.fn.DataTable.isDataTable("#koko")) {
-                    $('#koko').DataTable().clear().destroy();
+                if ($.fn.DataTable.isDataTable("#displayingTable")) {
+                    $('#displayingTable').DataTable().clear().destroy();
                 }
-                $("#koko").dataTable({
+                $("#displayingTable").dataTable({
                     "aaData": data.data,
                     "columns": cols,
                 });

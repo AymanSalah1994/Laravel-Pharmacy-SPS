@@ -27,7 +27,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Pharmacies
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -37,7 +36,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Doctors
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -47,7 +45,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Users [Customers]
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -57,17 +54,15 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Areas
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('useraddresses.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             User Addresses
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -77,17 +72,15 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Medicines
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('orders.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Orders
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -97,7 +90,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Revenue
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>

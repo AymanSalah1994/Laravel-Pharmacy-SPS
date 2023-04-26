@@ -1,6 +1,6 @@
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">Update Medicine</h3>
+        <h3 class="card-title fw-bold fs-4">Update Medicine</h3>
     </div>
     <form method="POST" action="{{ route('medicines.update', $med->id) }}" enctype="multipart/form-data">
         @csrf
@@ -25,7 +25,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary fw-bold">Submit</button>
         </div>
     </form>
 </div>

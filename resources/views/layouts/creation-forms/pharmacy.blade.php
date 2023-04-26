@@ -1,6 +1,6 @@
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">Create Pharmacy</h3>
+        <h3 class="card-title fw-bold fs-4">Create Pharmacy</h3>
     </div>
     <form method="POST" action="{{ route('pharmacies.store') }}" enctype="multipart/form-data">
         @csrf
@@ -11,7 +11,7 @@
                     name="name" value="{{old('name')}}">
                     @error('name')
                         <p class="text-danger mt-1">{{ $message }}</p>
-                    @enderror 
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
@@ -19,7 +19,7 @@
                     name="email" value="{{old('email')}}">
                     @error('email')
                     <p class="text-danger mt-1">{{ $message }}</p>
-                    @enderror 
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
@@ -27,7 +27,7 @@
                     name="password" value="{{old('password')}}">
                     @error('password')
                     <p class="text-danger mt-1">{{ $message }}</p>
-                    @enderror 
+                    @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">National ID </label>
@@ -35,7 +35,7 @@
                     name="national_id" value="{{old('national_id')}}" >
                     @error('national_id')
                     <p class="text-danger mt-1">{{ $message }}</p>
-                    @enderror 
+                    @enderror
 
             </div>
             <div class="row">
@@ -45,7 +45,7 @@
                         name="area_id" value="{{old('area_id')}}"  >
                         @error('area_id')
                         <p class="text-danger mt-1">{{ $message }}</p>
-                        @enderror 
+                        @enderror
                 </div>
                 <div class="form-group col-6">
                     <label for="exampleInputEmail1">Priority</label>
@@ -53,7 +53,7 @@
                         name="priority" value="{{old('priority')}}" >
                         @error('priority')
                         <p class="text-danger mt-1">{{ $message }}</p>
-                        @enderror 
+                        @enderror
                 </div>
             </div>
             <div class="form-group">
@@ -64,7 +64,7 @@
                         <label class="custom-file-label" for="exampleInputFile" value="{{old('avatar_image')}}">Choose file</label>
                         @error('avatar_image')
                         <p class="text-danger mt-1">{{ $message }}</p>
-                        @enderror 
+                        @enderror
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text">Upload</span>
@@ -74,7 +74,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary fw-bold">Submit</button>
         </div>
     </form>
 </div>

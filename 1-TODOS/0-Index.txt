@@ -1,0 +1,23 @@
+All Remaining TODOs : 
+    1- Making Seeder and Factory For the Final Shape Of Data  ; 
+    2-Using SQLite For the DB  ; 
+    3-Reading Through the File  ; 
+    4-Testing Functionality 
+    5-The Revenue Tab  ; 
+    6-Charts ? Need Seeding  ; 
+    7-Removing All Redundant Pluging From the AdminLTE ; 
+    8-Refactor the Command  ; 
+        app\Console\Commands\create.php
+    9-Handling the Binary Data and "Avatar" 
+    10-Completing any  Missing CRUD operation 
+        11-Put the CRUD in ALL other Tabs For Different User Types  ; 
+    12-Disabling / Removing Some AUTH routes  ; 
+    13- The ReadMe File 
+    14-Migrations TimeStamp Change ;  [ But Keep the Same Order , Just Date For other Reasons]
+        DONT CHANGE IT NOW !!!!!!
+    15-Naming Convention and koko and Those Weird Stuff !! 
+    16-API ?????????????
+    17- Check ToDO tree Using the Extension  ; 
+    18-The UI design ? 
+    19-Redundant Routes &&& Home Redirection  ; 
+    20-

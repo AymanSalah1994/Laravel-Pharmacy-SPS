@@ -18,6 +18,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
     public function userAddress()
     {
         return $this->belongsTo(UserAddress::class, 'delivering_address_id');
@@ -26,5 +31,10 @@ class Order extends Model
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class, 'order_id');
+    }
+
+    public function medicines()
+    {
+        return $this->belongsToMany(Medicine::class, 'orders_medicines', 'order_id', 'medicine_id');
     }
 }

@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('doctors.create') }}" class="btn btn-primary">Create New Doctor</a>
+    <a href="{{ route('doctors.create') }}" class="btn btn-primary fw-bold fs-4 d-flex justify-content-center mb-3">Create New Doctor</a>
     <br>
-    <form action="" method="">
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="koko">
+    <table class="table table-bordered yajra-datatable text-center shadow my-3" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Created At</th>
+                {{-- <th>Created At</th> --}}
                 <th>National Id</th>
                 <th>Email</th>
                 <th>Is Banned</th>
@@ -73,7 +73,7 @@
             });
         }
 
-        var myTable = $('#koko');
+        var myTable = $('#displayingTable');
         var cols = [{
                 data: 'id',
                 name: 'id'
@@ -82,10 +82,10 @@
                 data: 'name',
                 name: 'name'
             },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
+            // {
+            //     data: 'created_at',
+            //     name: 'created_at'
+            // },
             {
                 data: 'national_id',
                 name: 'national_id'
@@ -109,7 +109,7 @@
         let collections = {};
         $(document).ready(function() {
             //Initializing DataTables
-            let collectionsTable = $("#koko").dataTable({
+            let collectionsTable = $("#displayingTable").dataTable({
                 destroy: true,
                 "data": collections,
                 "columns": cols,
@@ -141,10 +141,10 @@
             });
 
             function assignToEventsColumns(data) {
-                if ($.fn.DataTable.isDataTable("#koko")) {
-                    $('#koko').DataTable().clear().destroy();
+                if ($.fn.DataTable.isDataTable("#displayingTable")) {
+                    $('#displayingTable').DataTable().clear().destroy();
                 }
-                $("#koko").dataTable({
+                $("#displayingTable").dataTable({
                     "aaData": data.data,
                     "columns": cols,
                 });
@@ -161,7 +161,7 @@
                 background: "linear-gradient(to right, #00b09b, #96c93d)",
             },
         }).showToast();
-        
+
     </script>
 @endif
 @endsection

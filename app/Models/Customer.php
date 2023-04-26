@@ -10,7 +10,7 @@ class Customer extends Model
 {
     use HasFactory;
     protected $fillable = [
-       'gender','mobile_number','profile_image','national_id','dob'
+        'gender', 'mobile_number', 'profile_image', 'national_id', 'dob'
     ];
     public function users()
     {
@@ -22,16 +22,14 @@ class Customer extends Model
         return $this->hasMany(UserAddress::class);
     }
 
-
     public function setImageAttribute($value)
     {
         $attribute_name = "profile_image";
-        $destination_path = public_path('/dist/img/customers');
+        $destination_path = public_path('/storage/customers');
         $profileImage = $value;
         $profileImageSaveAsName = time() . "-{$attribute_name}." . $profileImage->getClientOriginalExtension();
         $profile_image_url = $destination_path . $profileImageSaveAsName;
         $profileImage->move($destination_path, $profileImageSaveAsName);
-
         $this->attributes[$attribute_name] = $profileImageSaveAsName;
         return $profileImageSaveAsName;
     }
@@ -40,7 +38,6 @@ class Customer extends Model
         if ($value) {
             // delete old image
             $this->deleteImage();
-
             $name = $this->setImageAttribute($value);
             return $name;
         }
@@ -48,7 +45,7 @@ class Customer extends Model
     public function deleteImage()
     {
         if ($this->image) {
-            $imagePath = "dist/img/customers". $this->image;
+            $imagePath = "dist/img/customers" . $this->image;
             if (Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
             }

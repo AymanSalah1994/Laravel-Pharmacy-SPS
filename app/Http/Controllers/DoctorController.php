@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Pharmacy;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +16,6 @@ class DoctorController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user(); //  USER Model
-        // dd($user);
         $userType = $user->userable_type;
         $userFarmacist  = false;
         if ($userType == "App\Models\Pharmacy") {
@@ -94,17 +92,13 @@ class DoctorController extends Controller
         return view('doctor.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('doctor.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(DoctorRequest $request)
     {
 
@@ -136,9 +130,6 @@ class DoctorController extends Controller
         return redirect()->route('doctors.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $doctor = Doctor::findOrFail($id);
@@ -150,9 +141,6 @@ class DoctorController extends Controller
         return view('doctor.show')->with(compact('doctor', 'userDR'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $doctor = Doctor::findOrFail($id);
@@ -166,10 +154,6 @@ class DoctorController extends Controller
     }
 
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(DoctorRequest $request, string $id)
     {
 
@@ -207,16 +191,13 @@ class DoctorController extends Controller
         }
 
         $doctor->save();
-
         return response()->json([
             'success' => true,
             'message' => $message
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $doctor = Doctor::findOrFail($id);

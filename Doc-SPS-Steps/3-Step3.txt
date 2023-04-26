@@ -1,8 +1,0 @@
-Authentication Package "Laravel UI" :
-https://github.com/laravel/ui
-    - TODO >> Removing the Signup Route Later 
-
-1- Since we Use Bootstrap We will Run this : 
-    ~$ php artisan ui bootstrap --auth
-
-    A - Comment the "Vite" Line in the Views 

@@ -14,7 +14,8 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Put PHARMACY NAME HERE</a>
+                <a href="{{ url('/pharmacies/' . Auth::user()->userable_id) }}"
+                    class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
 
@@ -27,17 +28,14 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Pharmacy Profile Route
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a href="{{ route('doctors.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Doctors
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -47,7 +45,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Orders
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
@@ -57,7 +54,6 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Revenue
-                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>

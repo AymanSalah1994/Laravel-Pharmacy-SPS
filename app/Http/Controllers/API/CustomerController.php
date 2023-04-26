@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 
 
 class CustomerController extends Controller
@@ -87,16 +88,60 @@ class CustomerController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $userId = auth('sanctum')->user()->id;
+
+        $customer = Customer::where('user_id', $userId)->first();
+        if (!$customer) {
+            return response()->json([
+                'Error' => "You don't have a customer profile"
+            ], 422);
+        }
+
         if ($request->input('email')) {
             return response()->json([
                 'Error' => "You're not allowed to update email"
             ], 422);
-        } else {
-            $userId = auth('sanctum')->user()->id ;
-            return response()->json([
-                'Your Id ' => $userId ,
-                'Success' => "Your profile has been updated"
-            ]);
         }
+
+        // Validate the incoming request data
+        $request->validate([
+            'name' => ['string', 'max:255'],
+            'password' => ['string', 'min:8', 'confirmed'],
+            'gender' => Rule::in(['male', 'female']),
+            'dob' => 'date',
+            'national_id' => ['string', 'min:11', 'max:11'],
+            'profile_image' => ['image', 'max:2048'],
+            'mobile_number' => ['string', 'regex:/^[0-9]{10}$/'],
+        ]);
+
+        // Update the user's name and password if they're present in the request data
+        $user = User::find($userId);
+        if ($request->has('name')) {
+            $user->name = $request->input('name');
+        }
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+
+        // Update the customer's data
+        $customer->gender = $request->input('gender', $customer->gender);
+        $customer->dob = $request->input('dob', $customer->dob);
+        $customer->national_id = $request->input('national_id', $customer->national_id);
+        $customer->mobile_number = $request->input('mobile_number', $customer->mobile_number);
+
+        // Update the customer's profile image if it's present in the request data
+        if ($request->hasFile('profile_image')) {
+            $profileImage = $request->file('profile_image');
+            $fileName = time() . '_' . $profileImage->getClientOriginalName();
+            $filePath = $profileImage->storeAs('images/profile_images', $fileName);
+            $customer->profile_image = $fileName;
+        }
+
+        $customer->save();
+
+        return response()->json([
+            'Success' => "Your profile has been updated"
+        ]);
     }
 }
