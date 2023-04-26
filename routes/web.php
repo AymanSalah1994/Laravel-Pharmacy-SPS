@@ -38,12 +38,12 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 
 
 
-Route::resource('/doctors', DoctorController::class);
+Route::resource('/doctors', DoctorController::class)->middleware('doctor.banned');
 Route::resource('/pharmacies', PharmacyController::class);
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/areas', AreaController::class);
 Route::resource('/useraddresses', UserAddressController::class);
-Route::resource('/orders', OrderController::class);
+Route::resource('/orders', OrderController::class);  //->middleware('doctor.banned')
 Route::get('/success', [OrderController::class, 'success'])->name('stripe.success');
 Route::get('/cancel', [OrderController::class, 'cancel'])->name('stripe.cancel');
