@@ -19,4 +19,6 @@ All Remaining TODOs :
     15-Naming Convention and koko and Those Weird Stuff !! 
     16-API ?????????????
     17- Check ToDO tree Using the Extension  ; 
-    18-
+    18-The UI design ? 
+    19-Redundant Routes &&& Home Redirection  ; 
+    20-

@@ -16,16 +16,13 @@ Route::get('/', function () {
 });
 Auth::routes(['verify' => true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/starter', function () {
-    return view('starter');
-});
+
 Route::get('/dash', function () {
     return view('layouts.dashboard');
 });
 
 
-Route::resource('/doctors', DoctorController::class);
-Route::resource('/pharmacies', PharmacyController::class);
+
 
 Route::post('/doctors/ban/{doctor}', [DoctorController::class, 'ban'])->name('doctors.ban');
 
@@ -40,11 +37,13 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 //oncedefined as resorxe yoyu cant assign more 
 
 
+
+Route::resource('/doctors', DoctorController::class);
+Route::resource('/pharmacies', PharmacyController::class);
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/areas', AreaController::class);
 Route::resource('/useraddresses', UserAddressController::class);
 Route::resource('/orders', OrderController::class);
-
 Route::get('/success', [OrderController::class, 'success'])->name('stripe.success');
 Route::get('/cancel', [OrderController::class, 'cancel'])->name('stripe.cancel');
