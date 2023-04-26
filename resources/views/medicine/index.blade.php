@@ -2,6 +2,7 @@
 
 @section('content')
     <a href="{{ route('medicines.create') }}" class="btn btn-primary fw-bold fs-4 d-flex justify-content-center mb-3">Create New Medicine</a>
+    <br>
     <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
@@ -14,7 +15,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody id="tbodyid" class="">
+        <tbody id="tbodyid">
         </tbody>
     </table>
 @endsection

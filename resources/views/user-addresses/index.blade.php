@@ -1,8 +1,10 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<p class="fw-bold bg-primary fs-4 p-2 d-flex justify-content-center mb-3">User Addresses List</p>
+
     <br>
-    <form action="" method="">
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
     <table class="table table-bordered yajra-datatable" id="displayingTable">

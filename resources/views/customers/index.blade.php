@@ -1,10 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <form action="" method="">
+<p class="fw-bold bg-primary fs-4 p-2 d-flex justify-content-center mb-3">Customers Menu</p>
+
+<br>
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="displayingTable">
+    <table class="table table-bordered yajra-datatable text-center shadow my-3" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>

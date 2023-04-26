@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('doctors.create') }}" class="btn btn-primary">Create New Doctor</a>
+    <a href="{{ route('doctors.create') }}" class="btn btn-primary fw-bold fs-4 d-flex justify-content-center mb-3">Create New Doctor</a>
     <br>
-    <form action="" method="">
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="displayingTable">
+    <table class="table table-bordered yajra-datatable text-center shadow my-3" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>

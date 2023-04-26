@@ -2,6 +2,8 @@
 
 @section('content')
 <br>
+<h1 class="mt-2 ms-4 text-black fw-bold">Medicine Details</h1>
+
 <div class="card mt-5 text-center bg-primary shadow-lg rounded-3" style="width:60%; margin:auto;">
     <div class="card-body bg-primary">
       <h5 class="card-title fw-bolder text-center fs-4">Medicine </h5>

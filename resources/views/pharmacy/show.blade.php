@@ -2,21 +2,21 @@
 
 
 @section('content')
-<h1>Show Pharmacy</h1>
+<br>
+<h1 class="mt-2 ms-4 text-black fw-bold">Pharmacy Details</h1>
 
 
-<div class="card">
-  <div class="card-header">
+<div class="card mt-5 text-center bg-primary shadow-lg rounded-3">
+  <div class="card-header fw-bolder fs-2">
     pharmacy Info
   </div>
   <div class="card-body">
-    <div class="row">
+    <div class="row d-flex align-items-center">
       <div class="col col-md-6">
-        <strong class="card-title">name: </strong>
-
-        <p>{{$userPharmacy->name}}</p>
-        <strong class="card-title">email: </strong>
-        <p>{{$userPharmacy->email}}</p>
+        <strong class="card-title fw-bold fs-4">name: </strong>
+        <p class="fw-bold fs-5">{{$userPharmacy->name}}</p>
+        <strong class="card-title fw-bold fs-4">email: </strong>
+        <p class="fw-bold fs-5">{{$userPharmacy->email}}</p>
 
 
       </div>
@@ -28,32 +28,32 @@
 </div>
 
 
-<div class="card mt-5">
-  <div class="card-header">
-    pharmacy details Info
+<div class="card mt-5 text-center bg-primary shadow-lg rounded-3">
+  <div class="card-header fw-bolder fs-2">
+    Pharmacy Details Info
   </div>
   <div class="card-body">
-    <<strong class="card-title">area:  </strong>
+    <strong class="card-title fs-5 fw-bold">area:  </strong>
     @if($pharmacy->area)
-        <p>{{$pharmacy->area->name}}</p>
+        <p class="fw-bold fs-5">{{$pharmacy->area->name}}</p>
     @else
-        <p> Not registered yet</p>
+        <p class="fw-bold"> Not registered yet</p>
     @endif
-    <strong class="card-title">priority: </strong>
-    <p>{{$pharmacy->priority}}</p>
-    <strong class="card-title">national id: </strong>
-    <p>{{$pharmacy->national_id}} </p>
+    <strong class="card-title fs-5 fw-bold">priority: </strong>
+    <p class="fw-bold">{{$pharmacy->priority}}</p>
+    <strong class="card-title fs-5 fw-bold">national id: </strong>
+    <p class="fw-bold ">{{$pharmacy->national_id}} </p>
   </div>
+  <div class="d-flex justify-content-evenly m-3 ">
+    <a href="{{route('pharmacies.edit',$pharmacy->id)}}" class="btn btn-primary col-4 fw-bold">Edit</a>
+    @if (Auth::user()->role == 'admin')
+    <a href="{{route('pharmacies.index')}}" class="btn btn-primary col-4 fw-bold">Back</a>
+    @else
+    <a href="/pharmacies" class="btn btn-primary col-4 fw-bold">Back</a>
+    @endif
+    </div>
 </div>
-<div>
-  <a href="{{route('pharmacies.edit',$pharmacy->id)}}" class="btn btn-primary mt-5">Edit</a>
 
-  @if (Auth::user()->role == 'admin')
-  <a href="{{route('pharmacies.index')}}" class="btn btn-secondary mt-5">Back</a>
-  @else
-  <a href="/dash" class="btn btn-secondary mt-5">Back</a>
-  @endif
-  </div>
 
 
 @endsection

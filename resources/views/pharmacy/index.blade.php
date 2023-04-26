@@ -1,12 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <a href="{{ route('pharmacies.create')}}" class="btn btn-primary">Create New Pharmacy</a>
-    <a href="{{ route('pharmacies.restore.all')}}" class="btn btn-primary">Restore ALL Pharmacy</a>
-    <form action="" method="">
+    <a href="{{ route('pharmacies.create')}}" class="btn btn-primary fw-bold fs-4 d-flex justify-content-center">Create New Pharmacy</a>
+    <br>
+    <a href="{{ route('pharmacies.restore.all')}}" class="btn btn-secondary  fw-bold mb-3">Restore ALL Pharmacies</a>
+    <form action="" method="" class="mb-3">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="displayingTable">
+    <table class="table table-bordered yajra-datatable text-center shadow my-3" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -126,7 +127,7 @@
                 background: "linear-gradient(to right, #00b09b, #96c93d)",
             },
         }).showToast();
-        
+
     </script>
 @endif
 @endsection
