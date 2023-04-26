@@ -26,7 +26,7 @@ class MedicineController extends Controller
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
-                    // CSRF_field NOT TOKEN 
+                    // CSRF_field NOT TOKEN
                     return
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
                         <a href=$editLink class=\"btn btn-warning\" >Edit</a>
@@ -41,7 +41,7 @@ class MedicineController extends Controller
                 ->make(true);
         }
         return view('medicine.index');
-    } //End of Index 
+    } //End of Index
 
     public function create()
     {
@@ -55,10 +55,10 @@ class MedicineController extends Controller
         return redirect()->route("medicines.index")->with('status', 'Medicine Created Successfully');
     }
 
-    public function show(Medicine $medicine)
+    public function show(string $id)
     {
-        $m = Medicine::find($medicine)->first();
-        return view('medicine.show', compact('m'));
+        $medicine = Medicine::where('id',$id)->first();
+        return view('medicine.show', compact('medicine'));
     }
 
     public function edit(Medicine $medicine)
