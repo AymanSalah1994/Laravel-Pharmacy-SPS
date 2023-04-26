@@ -13,4 +13,9 @@ class Medicine extends Model
         'name',
         'price',
     ];
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'orders_medicines', 'order_id', 'medicine_id');
+    }
 }
