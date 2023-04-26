@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
-
     public static function createReturnAdmin()
     {
         $admin = new Admin();

@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
 class OrderFactory extends Factory
 {
     public function definition(): array

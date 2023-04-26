@@ -4,17 +4,12 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
- */
 class CustomerFactory extends Factory
 {
     public function definition(): array
     {
         $genders = ['male', 'female'];
         return [
-            // $this->faker->randomElements(['male', 'female']) NOT WORKING
-            // 'gender' =>  $this->faker->title($gender = 'male'|'female') ,
             'gender' => $this->faker->randomElement($genders),
             'dob' => $this->faker->date(),
             'national_id' => $this->faker->uuid(),

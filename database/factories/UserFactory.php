@@ -5,20 +5,11 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
+
 class UserFactory extends Factory
 {
     public function definition(): array
     {
-        $randomModelId = "" ;
-        $randomModelType = "" ;
-        // Create Random Model User Admin/Doctor/Customer/Pharmacy
-        // Assign Role Based On Model
-        // Fill REST common "user" Data
-        // Create that User
-        //
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -28,9 +19,6 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
