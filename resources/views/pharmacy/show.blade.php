@@ -41,6 +41,15 @@
     <p>{{$pharmacy->national_id}} </p>
   </div>
 </div>
+<div>
+  <a href="{{route('pharmacies.edit',$pharmacy->id)}}" class="btn btn-primary mt-5">Edit</a>
+
+  @if (Auth::user()->role == 'admin')
+  <a href="{{route('pharmacies.index')}}" class="btn btn-secondary mt-5">Back</a>
+  @else
+  <a href="/dash" class="btn btn-secondary mt-5">Back</a>
+  @endif
+  </div>
 
 
 @endsection

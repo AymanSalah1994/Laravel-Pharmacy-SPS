@@ -12,6 +12,7 @@ use App\Http\Requests\UpdatePharmacyRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 
 class PharmacyController extends Controller
@@ -113,6 +114,12 @@ class PharmacyController extends Controller
      */
     public function show(string $id)
     {
+        // dd($id);
+        // if($id == "profile")
+        // {
+        //     $id = auth()->user()->userable_id;
+        // }
+        // dd($id);
            $pharmacy = Pharmacy::find($id)->first();
            $userPharma = User::where(
             [
@@ -122,9 +129,24 @@ class PharmacyController extends Controller
       
         )->get();
         $userPharmacy =  $userPharma[0];
-        //    dd($pharmacy->users);
-            // $this->authorize('view', $pharmacy);
+        
             return view('pharmacy.show' , compact('pharmacy','userPharmacy'));
+        
+    }
+    public function showProfile(string $id)
+    {
+        dd($id);
+         
+           $userPharma = User::where(
+            [
+                ['userable_id', $id],
+               ['userable_type','App\Models\Pharmacy']
+            ]
+      
+        )->get();
+        $userPharmacy =  $userPharma[0];
+       
+            return view('pharmacy.show' , compact('userPharmacy'));
         
     }
 
@@ -150,11 +172,16 @@ class PharmacyController extends Controller
     
     public function update(UpdatePharmacyRequest $request)
     {
+
   
         $pharmacy = Pharmacy::find($request->id);
         $pharmacy->national_id  = $request->input('national_id');
-        $pharmacy->area_id  = $request->input('area_id');
-        $pharmacy->priority  = $request->input('priority');
+        if(Auth::user()->hasRole('admin'))
+        {
+            $pharmacy->area_id  = $request->input('area_id');
+            $pharmacy->priority  = $request->input('priority');
+        }
+       
             if ($request->hasFile('avatar_image')) {
                 if ($pharmacy->avatar_image) {
                     Storage::delete($pharmacy->avatar_image);
@@ -164,7 +191,7 @@ class PharmacyController extends Controller
                 $file->storeAs('images', $pharmacy->avatar_image);
             }
           
-                $pharmacy->save();
+               
             $userPharmacy = User::where([
                 ['userable_id', $request->id],
                 ['userable_type', 'App\Models\Pharmacy']
@@ -173,44 +200,26 @@ class PharmacyController extends Controller
             $userPharmacy->name = $request->input('name');
             $userPharmacy->email = $request->input('email');
             $userPharmacy->password = Hash::make($request->input('password'));
+            $request->merge([
+                'userPharmacy' => $userPharmacy->userable_id,
+            ]);
+            $pharmacy->save();
             $pharmacy->users()->save($userPharmacy);
 
            
-
-        // $allRequestedData = $request->handleRequest();
-        // $medicine = Medicine::findOrFail($medicine->id);
-        // $medicine->update($allRequestedData);
-        return redirect()->route('pharmacies.index')->with('status', 'Pharmacy Updated Successfully');
-    }
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Pharmacy $pharmacy)
-    // {
-    //     // dd($pharmacy);
-    //     $deletedPharmacy = Pharmacy::find($pharmacy)->first();
-    //     $userPharmacy = User::where([
-    //         ['userable_id', $pharmacy],
-    //         ['userable_type', 'App\Models\Pharmacy']
-    //     ])->first();
-    //         $userPharmacy->delete();
-    //     $deletedPharmacy->delete();
-
+            if(Auth::user()->hasRole('admin'))
+            {
+                return redirect()->route('pharmacies.index')->with('status', 'Pharmacy Updated Successfully');
+            }
+            else
+            {
+                return redirect()->route('pharmacies.show' , $request->id)->with('status', 'Pharmacy Updated Successfully');
+            }
         
-    //     return response()->json([
-    //         'success' => 'Record deleted successfully!'
-    //     ]);
-
-    //     // TODO , Delete ALSO From User Table Model 
-    // }
+        
+      
+    }
+   
     public function destroy(string $id)
     {
      
