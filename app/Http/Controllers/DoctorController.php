@@ -90,11 +90,7 @@ class DoctorController extends Controller
                 ->make(true);
                 
         }
-        // $allDoctors = Doctor::where("pharmacy_id", $userFarmacist->id)
-        // ->join('users', 'users.userable_id', '=', 'doctors.id')
-        // ->where('userable_type', "App\Models\Doctor")
-        // ->get();
-        // dd($allDoctors[0]->userable_id);
+
         return view('doctor.index');
     }
 
