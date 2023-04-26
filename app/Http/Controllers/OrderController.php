@@ -3,21 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
-use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\Order;
 use App\Models\OrderMedicine;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
+use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $myId  = auth()->user()->id ;  
-        // $myStr = "Your ID is : $myId " ; 
-        // dd($myStr) ; 
+        if ($request->ajax()) {
+            $allOrders = Order::query();
+            if ($request->searchkeyWord) {
+                $allOrders = $allOrders->where('name', 'LIKE', "%Prof%");
+                // {$request->searchkeyWord}
+            }
+            $allOrders = $allOrders->get();
+            return DataTables::of($allOrders)
+                ->addColumn('action', function ($allOrders) {
+                    $showLink  = route('orders.show', $allOrders->id);
+                    $editLink  = route('orders.edit', $allOrders->id);
+                    $deleteLink  = route('orders.destroy', $allOrders->id);
+                    $myField = csrf_field();
+                    $myToken = csrf_token();
+                    $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
+                    return
+                        "<a href=$showLink class=\"btn btn-primary\" >Show</a>
+                        <a href=$editLink class=\"btn btn-warning\" >Edit</a>
+                        <a onclick=\"myFunction($allOrders->id , '$myToken' ) \" class=\"btn btn-danger\">
+                        Delete
+                        </a>
+                        <form id=$allOrders->id action=$deleteLink method='POST'
+                            style=display: hidden class='form-inline'>
+                            $DEL
+                        </form>";
+                })
+                ->addColumn('testingName', function ($allOrders) {
+                    $doc  = User::find($allOrders->user_id);
+                    $theName  = $doc->name;
+                    return  "$theName";
+                })
+                ->make(true);
+        }
         return view('order.index');
     }
 
@@ -122,14 +152,15 @@ class OrderController extends Controller
     {
         // Here i Should Change the Order Status To Delivered   ;
         $letId  = request()->orderID;
-        return "This is the Id : $letId";
+        $order = Order::find($letId);
+        $order->status  = "Delivered";
+        $order->save();
+        return redirect()->route('orders.index')->with('status', ' SUCCESS');
     }
 
     public function cancel()
     {
-        // If He Clicks Back On the Left Button He Will Redirect to this  ;
-        // Here i Should Keep the Status Of the Order   ;
-        return "EEERRR";
+        return redirect()->route('orders.index')->with('error', ' Sometyhing Wrong');
     }
 
 

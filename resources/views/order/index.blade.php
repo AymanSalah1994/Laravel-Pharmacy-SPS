@@ -2,25 +2,30 @@
 
 @section('content')
     <a href="{{ route('orders.create') }}" class="btn btn-primary">Create New Order</a>
-    {{-- <form action="" method="">
+    <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
     <table class="table table-bordered yajra-datatable" id="koko">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th>Order User Name</th>
+                <th>Delivering address </th>
+                <th>Creation Date</th>
+                <th>Doctor Name</th>
+                <th>Is Insured</th>
+                <th>Status</th>
                 <th>Action</th>
+                <th>testingName</th>
             </tr>
         </thead>
         <tbody id="tbodyid">
         </tbody>
-    </table> --}}
+    </table>
 @endsection
 
 @section('scripts')
-    {{-- <script>
+    <script>
         function myFunction(formId, formToken) {
             let result = confirm("Are you Sure you Want to Delete ? ");
             console.log(result);
@@ -28,7 +33,7 @@
                 let form = document.getElementById(formId);
                 // form.submit();
                 $.ajax({
-                    url: '/medicines/' + formId,
+                    url: '/orders/' + formId,
                     type: 'DELETE',
                     data: {
                         "id": formId,
@@ -48,22 +53,43 @@
                 });
             }
         }
+
         var myTable = $('#koko');
         var cols = [{
                 data: 'id',
                 name: 'id'
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'customer_id',
+                name: 'customer_id'
             },
             {
-                data: 'price',
-                name: 'price'
+                data: 'delivering_address_id',
+                name: 'delivering_address_id'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at',
+            },
+            {
+                data: 'user_id',
+                name: 'user_id',
+            },
+            {
+                data: 'is_insured',
+                name: 'is_insured',
+            },
+            {
+                data: 'status',
+                name: 'status',
             },
             {
                 data: 'action',
                 name: 'action',
+            },
+            {
+                data: 'testingName',
+                name: 'testingName',
             },
         ]
         let collections = {};
@@ -77,7 +103,7 @@
                 serverSide: true,
                 "searching": false,
                 ajax: {
-                    url: '/medicines',
+                    url: '/orders',
                     type: 'GET',
                 },
             });
@@ -87,7 +113,7 @@
                 console.log("Search keyWord : " + ser);
                 $.ajax({
                     method: "GET",
-                    url: '/medicines',
+                    url: '/orders',
                     dataType: 'json',
                     data: {
                         'searchkeyWord': ser,
@@ -110,7 +136,7 @@
                 console.log(data);
             }
         });
-    </script> --}}
+    </script>
     @if ($status = session('status'))
         <script>
             Toastify({
@@ -120,7 +146,18 @@
                     background: "linear-gradient(to right, #00b09b, #96c93d)",
                 },
             }).showToast();
-            
+        </script>
+    @endif
+
+    @if ($status = session('error'))
+        <script>
+            Toastify({
+                text: '{{ $status }}',
+                duration: 3000,
+                style: {
+                    background: "red",
+                },
+            }).showToast();
         </script>
     @endif
 @endsection

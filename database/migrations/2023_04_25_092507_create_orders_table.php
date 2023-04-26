@@ -15,7 +15,8 @@ return new class extends Migration
             $table->foreignId('delivering_address_id')->references('id')->on('user_addresses')->onDelete('cascade');
             $table->boolean("is_insured");
             $table->string("status")->default("New");
-            $table->decimal("total_price")->default(0); 
+            $table->decimal("total_price")->default(0);
+            $table->unsignedBigInteger('pharmacy_id'); // NOT a FK , But Refer to 
             $table->timestamps();
         });
     }
