@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pharmacy extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'national_id',
@@ -16,7 +16,6 @@ class Pharmacy extends Model
         'priority',
         'area_id'
     ];
-
     public function users()
     {
         return $this->morphMany(User::class, 'userable');
@@ -26,5 +25,4 @@ class Pharmacy extends Model
     {
         return $this->belongsTo(Area::class);
     }
-    
 }

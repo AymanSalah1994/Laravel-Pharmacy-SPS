@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
-    protected $fillable = ['country_code','currency_code','capital'];
+    protected $fillable = ['country_code', 'currency_code', 'capital'];
 }
