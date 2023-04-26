@@ -17,4 +17,7 @@ class Area extends Model
     {
         return $this->hasMany(UserAddress::class);
     }
+    public function country (){
+        return $this->belongsTo(related: Country::class);
+    }
 }

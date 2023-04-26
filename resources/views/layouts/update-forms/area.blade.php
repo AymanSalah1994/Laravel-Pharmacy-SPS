@@ -1,6 +1,6 @@
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">Create New Area</h3>
+        <h3 class="card-title">Edit Area</h3>
     </div>
     <form method="POST" action="{{ route('areas.update', $ar->id) }}" enctype="multipart/form-data">
         @csrf
