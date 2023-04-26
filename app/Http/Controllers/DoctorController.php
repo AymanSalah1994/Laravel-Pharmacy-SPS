@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Pharmacy;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +16,6 @@ class DoctorController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user(); //  USER Model
-        // dd($user);
         $userType = $user->userable_type;
         $userFarmacist  = false;
         if ($userType == "App\Models\Pharmacy") {
@@ -180,7 +178,6 @@ class DoctorController extends Controller
         }
 
         $doctor->save();
-
         return response()->json([
             'success' => true,
             'message' => $message

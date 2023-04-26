@@ -5,7 +5,7 @@
     <form action="" method="">
         <input type="text" name="searchkeyword" id="myBox">
     </form>
-    <table class="table table-bordered yajra-datatable" id="koko">
+    <table class="table table-bordered yajra-datatable" id="displayingTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -48,7 +48,7 @@
                 });
             }
         }
-        var myTable = $('#koko');
+        var myTable = $('#displayingTable');
         var cols = [{
                 data: 'id',
                 name: 'id'
@@ -69,7 +69,7 @@
         let collections = {};
         $(document).ready(function() {
             //Initializing DataTables
-            let collectionsTable = $("#koko").dataTable({
+            let collectionsTable = $("#displayingTable").dataTable({
                 destroy: true,
                 "data": collections,
                 "columns": cols,
@@ -100,10 +100,10 @@
             });
 
             function assignToEventsColumns(data) {
-                if ($.fn.DataTable.isDataTable("#koko")) {
-                    $('#koko').DataTable().clear().destroy();
+                if ($.fn.DataTable.isDataTable("#displayingTable")) {
+                    $('#displayingTable').DataTable().clear().destroy();
                 }
-                $("#koko").dataTable({
+                $("#displayingTable").dataTable({
                     "aaData": data.data,
                     "columns": cols,
                 });

@@ -88,7 +88,6 @@ class CustomerController extends Controller
     public function update(CustomerAdminUpdateRequest $request, Customer $customer)
     {
         $allRequestedData = $request->handleRequest();
-        // dd($allRequestedData);  // TODO
         $customer = Customer::findOrFail($customer->id);
         $customer->update($allRequestedData);
         $userModelData =  [];
@@ -105,7 +104,6 @@ class CustomerController extends Controller
             ->first();
         $userModelOfCustomer->delete();
         $deletedCustomer->delete();
-
         return response()->json([
             'success' => 'Record deleted successfully!'
         ]);

@@ -245,8 +245,6 @@ class OrderController extends Controller
 
         // else  is Below : 
         $totalPrice = 0;
-        $spsLineItems = [];
-        $stripe = new StripeClient(env('STRIPE_SECRET')); // 1- Create the CLient 
         for ($i = 0; $i < sizeof($medArray); $i++) {
             $totalPrice = $totalPrice + ($priceArray[$i] * $quantArray[$i]);
         }
@@ -288,12 +286,11 @@ class OrderController extends Controller
             }
         }
 
-        return redirect()->route('orders.index') ;// 3- Redirect 
+        return redirect()->route('orders.index'); // 3- Redirect 
     }
 
 
     public function destroy(string $id)
     {
-        //
     }
 }
