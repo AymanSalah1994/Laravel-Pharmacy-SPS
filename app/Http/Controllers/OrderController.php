@@ -30,9 +30,13 @@ class OrderController extends Controller
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
-                    return
-                        "<a href=$showLink class=\"btn btn-primary\" >Show</a>
-                        <a href=$editLink class=\"btn btn-warning\" >Edit</a>
+
+
+                    $newControles  = "<a href=$showLink class=\"btn btn-primary\" >Show/Process</a>"; // Only To see 
+
+                    $processingControles = "
+                    <a href=$showLink class=\"btn btn-primary\" >Show</a>
+                        <a href=$editLink class=\"btn btn-warning\" >Handle/Edit</a>
                         <a onclick=\"myFunction($allOrders->id , '$myToken' ) \" class=\"btn btn-danger\">
                         Delete
                         </a>
@@ -40,6 +44,38 @@ class OrderController extends Controller
                             style=display: hidden class='form-inline'>
                             $DEL
                         </form>";
+
+
+                    $waitingConfirmationControls  = "Waiting For Confirmation";
+                    $canceledControls  = "Canceled";
+                    $confirmedControls  = "<a href=$showLink class=\"btn btn-primary\" >Confirmed/Mark as Delivered</a>";
+                    $deliveredControles  = "Delivered";
+
+                    if ($allOrders->status == "New") {
+                        return $newControles;
+                    } else if ($allOrders->status == "Processing") {
+                        return $processingControles;
+                    } else if ($allOrders->status == "Delivered") {
+                        return $deliveredControles;
+                    } else if ($allOrders->status == "WaitingForUserConfirmation") {
+                        return $waitingConfirmationControls;
+                    } else if ($allOrders->status == "Canceled") {
+                        return $canceledControls;
+                    } else if ($allOrders->status == "Confirmed") {
+                        return $confirmedControls;
+                    }
+
+
+                    // return
+                    //     "<a href=$showLink class=\"btn btn-primary\" >Show</a>
+                    //     <a href=$editLink class=\"btn btn-warning\" >Edit</a>
+                    //     <a onclick=\"myFunction($allOrders->id , '$myToken' ) \" class=\"btn btn-danger\">
+                    //     Delete
+                    //     </a>
+                    //     <form id=$allOrders->id action=$deleteLink method='POST'
+                    //         style=display: hidden class='form-inline'>
+                    //         $DEL
+                    //     </form>";
                 })
                 ->addColumn('testingName', function ($allOrders) {
                     $doc  = User::find($allOrders->user_id);
@@ -166,7 +202,23 @@ class OrderController extends Controller
 
     public function show(string $id)
     {
-        //
+        $order = Order::find($id);
+        if ($order->status == "Confirmed")
+        {
+            $order->status = "Delivered" ; 
+            $order->save() ; 
+            return redirect()->route('orders.index')->with('status', 'Order Delivered!');
+        }
+        else if ($order->status == "New")
+        {
+            $order->status = "Processing" ; 
+            $order->save() ; 
+            return view('order.show') ; 
+        }
+        else 
+        {
+            return view('order.show') ; 
+        }
     }
 
     /**
