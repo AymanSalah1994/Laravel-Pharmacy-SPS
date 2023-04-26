@@ -183,7 +183,6 @@ class OrderController extends Controller
         return redirect($checkout_session->url); // 3- Redirect 
     }
 
-
     public function success()
     {
         // Here i Should Change the Order Status To Delivered   ;
@@ -199,47 +198,100 @@ class OrderController extends Controller
         return redirect()->route('orders.index')->with('error', ' Sometyhing Wrong');
     }
 
-
     public function show(string $id)
     {
         $order = Order::find($id);
-        if ($order->status == "Confirmed")
-        {
-            $order->status = "Delivered" ; 
-            $order->save() ; 
+        if ($order->status == "Confirmed") {
+            $order->status = "Delivered";
+            $order->save();
             return redirect()->route('orders.index')->with('status', 'Order Delivered!');
-        }
-        else if ($order->status == "New")
-        {
-            $order->status = "Processing" ; 
-            $order->save() ; 
-            return view('order.show') ; 
-        }
-        else 
-        {
-            return view('order.show') ; 
+        } else if ($order->status == "New") {
+            $order->status = "Processing";
+            $order->save();
+            return view('order.show');
+        } else {
+            return view('order.show');
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
-        //
+        $order = Order::find($id);
+        $allMedicines  = Medicine::get();
+        return view('order.edit', compact(['order',  'allMedicines']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(OrderRequest $request, string $id)
     {
-        //
+        $medArray = $request->medicines;
+        $quantArray = $request->quantities;
+        $priceArray = $request->prices;
+        $typeArray = $request->types;
+        $bigArray  = [$medArray, $quantArray, $priceArray, $typeArray];
+        $sizeFlag  = false;
+        $initialSize = sizeof($medArray);
+
+        foreach ($bigArray as $arr) {
+            if (sizeof($arr) != $initialSize) {
+                $sizeFlag = true;
+            }
+        }
+
+        if ($sizeFlag) {
+            return redirect()->route('orders.index')->with('error', ' Sometyhing Wrong');
+        }
+
+        // else  is Below : 
+        $totalPrice = 0;
+        $spsLineItems = [];
+        $stripe = new StripeClient(env('STRIPE_SECRET')); // 1- Create the CLient 
+        for ($i = 0; $i < sizeof($medArray); $i++) {
+            $totalPrice = $totalPrice + ($priceArray[$i] * $quantArray[$i]);
+        }
+
+        $newOrder =  Order::find($id);
+        $newOrder->status  = "WaitingForUserConfirmation";
+        $newOrder->user_id =  auth()->user()->id; // creator_id
+        $newOrder->customer_id = $request->customer_id;
+        $newOrder->delivering_address_id = "1"; // TODO 
+        $newOrder->is_insured = true;  // TODO 
+        $newOrder->total_price = $totalPrice / 100;
+        $newOrder->save();
+        $orderID = $newOrder->id;
+
+
+        for ($i = 0; $i < sizeof($medArray); $i++) {
+            if (is_numeric($medArray[$i])) {
+                $orderMedicine  =  new OrderMedicine();
+                $orderMedicine->order_id = $orderID;
+                $orderMedicine->medicine_id =  $medArray[$i];
+                $orderMedicine->type =  $typeArray[$i];
+                $orderMedicine->quantity =  $quantArray[$i];
+                $orderMedicine->price = $priceArray[$i];
+                $orderMedicine->save();
+            } else {
+                $newlyCreatedMedicine  = new Medicine();
+                $newlyCreatedMedicine->name  = $medArray[$i];
+                $newlyCreatedMedicine->price = $priceArray[$i];
+                $newlyCreatedMedicine->save();
+                $newMedId  = $newlyCreatedMedicine->id;
+                // Save 
+                $orderMedicine  =  new OrderMedicine();
+                $orderMedicine->order_id = $orderID;
+                $orderMedicine->medicine_id =  $newMedId;
+                $orderMedicine->type =  $typeArray[$i];
+                $orderMedicine->quantity =  $quantArray[$i];
+                $orderMedicine->price = $priceArray[$i];
+                $orderMedicine->save();
+            }
+        }
+
+        return redirect()->route('orders.index') ;// 3- Redirect 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         //

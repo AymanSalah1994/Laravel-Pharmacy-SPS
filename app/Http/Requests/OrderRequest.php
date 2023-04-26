@@ -15,6 +15,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'customer_id' =>'required' , 
             "medicines"    => "required|array|min:1",
             'medicines.*' => 'string',
             "quantities"    => "required|array|min:1",
