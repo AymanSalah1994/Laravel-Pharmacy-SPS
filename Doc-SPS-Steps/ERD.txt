@@ -1,3 +1,0 @@
-User [ Including Admin , Pharmacy , Doctor ] -> Because of the Auth Problem 
-
-Todo : The TREE Of the Models 

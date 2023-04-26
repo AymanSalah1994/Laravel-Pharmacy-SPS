@@ -11,8 +11,8 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="exampleInputprice"> Customer Id :</label>
-                    <input type="text" class="form-control" id="exampleInputname" placeholder="Enter Name" name="customer_id"
-                        value="{{ $order->customer_id }}" readonly>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="Enter Name"
+                        name="customer_id" value="{{ $order->customer_id }}" readonly>
                     @error('customer_id')
                         <span style="color: red">{{ $message }}</span>
                     @enderror

@@ -6,9 +6,7 @@ use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-/**
- * Summary of UserAddressController
- */
+
 class UserAddressController extends Controller
 {
     public function index(Request $request)
@@ -46,43 +44,33 @@ class UserAddressController extends Controller
         return view('user-addresses.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         // No Creation , A User Creates It Himself 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         // Related To Create 
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         // Later TODO 
         // TODO
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         // $med = Medicine::findOrFail($medicine->id);
         return view('medicine.edit', compact('med'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $allRequestedData = $request->handleRequest();

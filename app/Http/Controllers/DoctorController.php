@@ -88,17 +88,13 @@ class DoctorController extends Controller
         return view('doctor.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('doctor.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(DoctorRequest $request)
     {
         $doctor = new Doctor();
@@ -123,9 +119,6 @@ class DoctorController extends Controller
         return redirect()->route('doctors.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $doctor = Doctor::findOrFail($id);
@@ -137,9 +130,6 @@ class DoctorController extends Controller
         return view('doctor.show')->with(compact('doctor', 'userDR'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $doctor = Doctor::findOrFail($id);
@@ -153,10 +143,6 @@ class DoctorController extends Controller
     }
 
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(DoctorRequest $request, string $id)
     {
 
@@ -201,9 +187,7 @@ class DoctorController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         $doctor = Doctor::findOrFail($id);

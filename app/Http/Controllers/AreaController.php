@@ -60,11 +60,10 @@ class AreaController extends Controller
     public function show(string $id)
     {
         // TODO
-        // @dd($id);
         $area = new Area();
         $area = Area::find($id);
         $areas = Area::where('country_id', $area->country_id)->get();
-        return view('areas.show', compact('area','areas'));
+        return view('areas.show', compact('area', 'areas'));
     }
 
     public function edit(Area $area)
