@@ -14,7 +14,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Put DOCTOR NAME HERE</a>
+                <a href="{{ url('/doctors/' . Auth::user()->userable_id) }}" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
 

@@ -5,7 +5,7 @@
 <h1 class="mt-2 ms-4 text-black fw-bold">Doctor Details</h1>
 
 <div class="card mt-5 text-center bg-primary shadow-lg rounded-3" style="width:60%; margin:auto;">
-  <img class="card-img-top" src="" alt="{{$doctor->avatar_image}}">
+  <!-- <img class="card-img-top" src="" alt="{{$doctor->avatar_image}}"> -->
   <div class="card-body">
     <h5 class="card-title fs-4 fw-bold">DR: {{$userDR->name}}</h5>
     <p class="card-text fw-bold pt-3">Personal Info:</p>
@@ -22,7 +22,12 @@
 </li>
   </ul>
   <div class="d-flex justify-content-evenly m-3">
+  @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('pharmcy'))
+
     <a href={{route('doctors.index')}} class="btn btn-primary col-4 fw-bold" >Back</a>
+  @elseif(Auth::user()->hasRole('doctor'))
+  <a href={{url('/dash')}} class="btn btn-primary col-4 fw-bold" >Back</a>
+  @endif
     <a href={{route('doctors.edit', $doctor->id)}} class="btn btn-primary col-4 fw-bold" >Edit</a>
   </div>
 </div>

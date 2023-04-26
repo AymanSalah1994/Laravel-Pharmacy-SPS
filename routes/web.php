@@ -38,7 +38,7 @@ Route::put('/pharma/update', [PharmacyController::class, 'update'])->name('pharm
 
 
 
-Route::resource('/doctors', DoctorController::class)->middleware('doctor.banned');
+Route::resource('/doctors', DoctorController::class)->middleware('doctor.banned'); 
 Route::resource('/pharmacies', PharmacyController::class);
 Route::resource('/medicines', MedicineController::class);
 Route::resource('/customers', CustomerController::class);

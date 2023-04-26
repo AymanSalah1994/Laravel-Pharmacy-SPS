@@ -14,7 +14,7 @@ class DoctorSeeder extends Seeder
     {
         Doctor::factory(10)->create()->each(function ($eachDoctor) {
             $userDoctor  = new User();
-            $userDoctor->assignRole('user');
+            $userDoctor->assignRole('doctor');
             $userDoctor->name = fake()->name();
             $userDoctor->email = fake()->unique()->safeEmail();
             $userDoctor->password = Hash::make('123456');

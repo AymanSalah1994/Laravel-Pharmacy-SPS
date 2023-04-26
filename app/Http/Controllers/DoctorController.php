@@ -141,6 +141,20 @@ class DoctorController extends Controller
         return view('doctor.show')->with(compact('doctor', 'userDR'));
     }
 
+    // public function showProfile(string $id)
+    // {
+    //     $userDoctor = User::where(
+    //         [
+    //             ['userable_id', $id],
+    //             ['userable_type', 'App\Models\Doctor']
+    //         ]
+
+    //     )->get();
+
+    //     $userDR = $userDoctor[0];
+    //     return view('doctor.show', compact('userDR'));
+    // }
+
     public function edit(string $id)
     {
         $doctor = Doctor::findOrFail($id);
@@ -175,7 +189,7 @@ class DoctorController extends Controller
         }
         $doctor->save();
         $userDR->save();
-        return redirect()->route('doctors.index')->with('status', 'DR Updated Successfully');
+        return view('doctor.show')->with(compact('doctor', 'userDR'));
     }
 
     public function ban(string $id)
