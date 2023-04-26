@@ -11,7 +11,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Created At</th>
+                {{-- <th>Created At</th> --}}
                 <th>National Id</th>
                 <th>Email</th>
                 <th>Is Banned</th>
@@ -82,10 +82,10 @@
                 data: 'name',
                 name: 'name'
             },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
+            // {
+            //     data: 'created_at',
+            //     name: 'created_at'
+            // },
             {
                 data: 'national_id',
                 name: 'national_id'
@@ -161,7 +161,7 @@
                 background: "linear-gradient(to right, #00b09b, #96c93d)",
             },
         }).showToast();
-        
+
     </script>
 @endif
 @endsection

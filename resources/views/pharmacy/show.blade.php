@@ -2,7 +2,7 @@
 
 
 @section('content')
-<h1>show</h1>
+<h1>Show Pharmacy</h1>
 
 
 <div class="card">
@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col col-md-6">
         <strong class="card-title">name: </strong>
-        
+
         <p>{{$userPharmacy->name}}</p>
         <strong class="card-title">email: </strong>
         <p>{{$userPharmacy->email}}</p>
@@ -33,8 +33,12 @@
     pharmacy details Info
   </div>
   <div class="card-body">
-    <strong class="card-title">area: </strong>
-    <p>{{$pharmacy->area->name}}</p>
+    <<strong class="card-title">area:  </strong>
+    @if($pharmacy->area)
+        <p>{{$pharmacy->area->name}}</p>
+    @else
+        <p> Not registered yet</p>
+    @endif
     <strong class="card-title">priority: </strong>
     <p>{{$pharmacy->priority}}</p>
     <strong class="card-title">national id: </strong>

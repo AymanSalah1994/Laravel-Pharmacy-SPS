@@ -34,7 +34,7 @@ class CustomerController extends Controller
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
-                    // CSRF_field NOT TOKEN 
+                    // CSRF_field NOT TOKEN
                     return
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
                         <a href=$editLink class=\"btn btn-warning\" >Edit</a>
@@ -55,18 +55,24 @@ class CustomerController extends Controller
 
     public function create()
     {
-        // Later Or Cancel , User Register himself 
+        // Later Or Cancel , User Register himself
     }
 
     public function store(Request $request)
     {
-        // Related To Create 
+        // Related To Create
     }
 
-    public function show(Customer $customer)
+    public function show(string $id)
     {
-        $c = Customer::find($customer)->first();
-        return view('customers.show', compact('c'));
+        $customer = new Customer();
+        $customer = Customer::find($id)->first();
+        $userC = User::where([
+            ['userable_id', $id],
+            ['userable_type', 'App\Models\Customer']
+        ])->get();
+        $userCustomer = $userC[0];
+        return view('customers.show', compact('customer', 'userCustomer'));
     }
 
     public function edit(Customer $customer)
@@ -75,7 +81,7 @@ class CustomerController extends Controller
         $cust = $cust->with('users')
             ->where('id', $cust->id)
             ->first();
-        // dd($cust->users[0]->name) ; 
+        // dd($cust->users[0]->name) ;
         return view('customers.edit', compact('cust'));
     }
 
