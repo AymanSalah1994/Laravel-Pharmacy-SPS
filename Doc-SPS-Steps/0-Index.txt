@@ -1,12 +1,3 @@
-General Notes  :
-    - The Development is Incremental , Following the PDF specifications [ Starting with Admin then Doctor 
-    ...etc ] , Then Adding Middlewares and Roles ...etc 
-    It is CIRCULAR 
-
-He said To Stick with the Simple things !! 
-    - This is Useful Specially with Vague things !! 
-
-================================================
 
 1-About the Seeder For Admin 
 2-About Making admin Custom Command 
