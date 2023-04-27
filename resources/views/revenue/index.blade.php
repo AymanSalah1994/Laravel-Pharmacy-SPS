@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($allRevenues2 as $revenue)
+            @foreach ($allRevenues as $revenue)
                 <tr>
                     <td>{{ $revenue->PharmacyName }}</td>
                     <td>{{ $revenue->totalOrders }}</td>

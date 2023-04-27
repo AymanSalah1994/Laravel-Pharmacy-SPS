@@ -17,7 +17,7 @@ class RevenueController extends Controller
 
 
 
-        $allRevenues2 = Order::query()
+        $allRevenues = Order::query()
             ->join('users', 'users.userable_id', '=', 'orders.pharmacy_id')
             ->where("users.userable_type", "App\Models\Pharmacy")
             ->select('users.name as PharmacyName')
@@ -26,13 +26,7 @@ class RevenueController extends Controller
             ->groupby('users.name')
             ->get();
 
-
-
-
-        // dd($allRevenues2);
-
-
-        return view('revenue.index' , compact('allRevenues2'));
+        return view('revenue.index', compact('allRevenues'));
     }
 
     /**
