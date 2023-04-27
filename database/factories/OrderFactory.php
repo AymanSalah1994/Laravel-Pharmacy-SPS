@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Customer;
+use App\Models\Pharmacy;
 use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -15,6 +16,7 @@ class OrderFactory extends Factory
         $stats = ['New', 'Processing', 'WaitingForUserConfirmation', 'Canceled', 'Confirmed', 'Delivered'];
         return [
             'user_id' => User::pluck('id')->random(),
+            'pharmacy_id' => Pharmacy::pluck('id')->random(),
             'customer_id' => $fixedCustomerID,
             'delivering_address_id' => UserAddress::where('id', $fixedCustomerID)->pluck('id')->random(),
             'is_insured' => $this->faker->boolean(),
