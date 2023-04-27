@@ -193,25 +193,22 @@ class PharmacyController extends Controller
         }
     }
 
-    public function destroy(string $id): \Illuminate\Http\JsonResponse
+    public function destroy(string $id)
     {
-
-        $deletedPharmacy = Pharmacy::find($id)->first();
-        $userPharma = User::where([
-            ['userable_id', $id],
-            ['userable_type', 'App\Models\Pharmacy']
-        ])->get();
-        $userPharmacy = $userPharma[0];
-
+        $deletedPharmacy = Pharmacy::find($id);
+        // $userPharma = User::where([
+        //     ['userable_id', $deletedPharmacy->id],
+        //     ['userable_type', 'App\Models\Pharmacy']
+        // ])->get();
+        // $userPharmacy = $userPharma[0];
         $deletedPharmacy->delete();
-        $userPharmacy->delete();
-
+        // $userPharmacy->delete(); No Need For this , it is Soft Delete
         return response()->json([
             'success' => 'Record deleted successfully!'
         ]);
     }
 
-    public function restoreAll(): \Illuminate\Http\RedirectResponse
+    public function restoreAll()
     {
         Pharmacy::onlyTrashed()->restore();
         return redirect()->route('pharmacies.index');
