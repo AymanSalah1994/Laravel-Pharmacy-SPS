@@ -13,6 +13,7 @@ class OrderMedicine extends Model
         'order_id',
         'medicine_id',
         'type',
-        'quantity'
+        'quantity',
+        'price' // Still In Cents Here ! 
     ];
 }

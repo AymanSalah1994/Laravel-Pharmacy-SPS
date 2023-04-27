@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AreaSeeder::class, // 7
             UserAddressSeeder::class, // 8 
             OrderSeeder::class, // 9 
+            OrderMedicineSeeder::class, // 10 
         ]);
         $this->command->info('Seeded All Data!');
     }
