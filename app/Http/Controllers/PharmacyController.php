@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Pharmacy;
 use App\Models\Area;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePharmacyRequest;
 use App\Http\Requests\UpdatePharmacyRequest;
@@ -21,18 +20,12 @@ class PharmacyController extends Controller
     {
         if ($request->ajax()) {
             $allPharmacies = Pharmacy::query();
-            // $allPharmacies = User::where("userable_type", "App\Models\Pharmacy")
-            //     ->join('pharmacies', 'users.userable_id', '=', 'pharmacies.id')
-            //     ->where('name', 'LIKE', "%{$request->searchkeyWord}%")
-            //     ->get();
-
-            // Applying Our Own Search In BackEnd 
+            // Applying Our Own Search In BackEnd
             if ($request->searchkeyWord) {
                 $allPharmacies = User::where("userable_type", "App\Models\Pharmacy")
                     ->join('pharmacies', 'users.userable_id', '=', 'pharmacies.id')
                     ->where('name', 'LIKE', "%{$request->searchkeyWord}%")
                     ->whereNull('deleted_at')
-                    // ->orderBy('page_order')
                     ->get();
             } else {
                 $allPharmacies = User::where("userable_type", "App\Models\Pharmacy")
@@ -52,15 +45,13 @@ class PharmacyController extends Controller
                     $myField = csrf_field();
                     $myToken = csrf_token();
                     $DEL = $myField . "<input type=\"hidden\" name=\"_method\" value=\"DELETE\"> ";
-                    // CSRF_field NOT TOKEN 
+                    // CSRF_field NOT TOKEN
                     return
                         "<a href=$showLink class=\"btn btn-primary\" >Show</a>
                         <a href=$editLink class=\"btn btn-warning\" >Edit</a>
-
                         <a onclick=\"myFunction($allPharmacies->id , '$myToken' ) \" class=\"btn btn-danger\">
                         $deleteOrRestore
                         </a>
-
                         <form id=$allPharmacies->id action=$deleteLink method='POST'
                             style=display: hidden class='form-inline'>
                             $DEL
@@ -90,7 +81,7 @@ class PharmacyController extends Controller
             $pharmacy->save();
             // TODO: Something Wrong with Files (Ubuntu Windows ?)
         } else {
-            $pharmacy->avatar_image = "1.jpg"; //Default 
+            $pharmacy->avatar_image = "1.jpg"; //Default
             $pharmacy->save();
         }
 
@@ -202,7 +193,7 @@ class PharmacyController extends Controller
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id): \Illuminate\Http\JsonResponse
     {
 
         $deletedPharmacy = Pharmacy::find($id)->first();
@@ -220,10 +211,9 @@ class PharmacyController extends Controller
         ]);
     }
 
-    public function restoreAll()
+    public function restoreAll(): \Illuminate\Http\RedirectResponse
     {
         Pharmacy::onlyTrashed()->restore();
         return redirect()->route('pharmacies.index');
     }
 }
-

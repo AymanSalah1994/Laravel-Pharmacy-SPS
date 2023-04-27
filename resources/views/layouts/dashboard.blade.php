@@ -21,6 +21,17 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             {{-- @include('layouts.dash-components.content-header') --}}
+
+            @if (Request::is('dash'))
+                <div class="container text-center">
+                    <div class="row">
+                        <h3>Welcome {{ auth()->user()->name }}</h3>
+                    </div>
+                    <h1>Here are all Links for all Availabe actions</h1>
+                    <img src="{{ asset('imgs/arrow.png') }}" alt="">
+                </div>
+            @endif
+
             @yield('content')
 
         </div>

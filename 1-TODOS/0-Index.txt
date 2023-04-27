@@ -9,7 +9,7 @@ All Remaining TODOs :
     8-Refactor the Command  ; 
         app\Console\Commands\create.php
     9-Handling the Binary Data and "Avatar" 
-    10-Completing any  Missing CRUD operation 
+    10-Completing any Missing CRUD operation 
         11-Put the CRUD in ALL other Tabs For Different User Types  ; 
     12-Disabling / Removing Some AUTH routes  ; 
     13- The ReadMe File 
