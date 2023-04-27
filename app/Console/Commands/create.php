@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class create extends Command
@@ -28,16 +29,30 @@ class create extends Command
             'updated_at' => now(),
         ];
 
-        try {
-            // Validate that the email is unique
-            $this->validate([
-                'email' => ['required', 'email', 'unique:users,email'],
-            ]);
 
+        $data = array(
+            'email' => $this->option('email'),
+            'password'  => $this->option('password')
+        );
+
+        $rules = array(
+            'email' => 'required|email|unique:users,email',
+            'password'  => 'required',
+        );
+
+        $validator = Validator::make($data, $rules);
+
+
+        if ($validator->fails()) {
+            $this->error('Data is Not Valid.');
+        } else {
             DB::table('users')->insert($adminArray);
             $this->info('Admin created successfully!');
-        } catch (ValidationException $e) {
-            $this->error('The email address must be unique.');
         }
+    }
+
+
+    public function checkEmailExits()
+    {
     }
 }
