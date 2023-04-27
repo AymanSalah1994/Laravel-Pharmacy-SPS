@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class create extends Command
 {
@@ -29,7 +28,6 @@ class create extends Command
             'updated_at' => now(),
         ];
 
-
         $data = array(
             'email' => $this->option('email'),
             'password'  => $this->option('password')
@@ -42,17 +40,11 @@ class create extends Command
 
         $validator = Validator::make($data, $rules);
 
-
         if ($validator->fails()) {
             $this->error('Data is Not Valid.');
         } else {
             DB::table('users')->insert($adminArray);
             $this->info('Admin created successfully!');
         }
-    }
-
-
-    public function checkEmailExits()
-    {
     }
 }
