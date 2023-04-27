@@ -11,7 +11,7 @@ class CustomerSeeder extends Seeder
 {
     public function run(): void
     {
-        Customer::factory(10)->create()->each(function ($eachCustomer) {
+        Customer::factory(20)->create()->each(function ($eachCustomer) {
             $userCustomer  = new User();
             $userCustomer->assignRole('user');
             $userCustomer->name = fake()->name();

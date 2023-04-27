@@ -9,6 +9,6 @@ class UserAddressSeeder extends Seeder
 {
     public function run(): void
     {
-        UserAddress::factory()->count(10)->create();
+        UserAddress::factory()->count(20)->create();
     }
 }

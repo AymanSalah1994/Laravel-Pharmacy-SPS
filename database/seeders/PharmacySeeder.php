@@ -11,7 +11,7 @@ class PharmacySeeder extends Seeder
 {
     public function run(): void
     {
-        Pharmacy::factory(10)->create()->each(function ($eachPharmacy) {
+        Pharmacy::factory(20)->create()->each(function ($eachPharmacy) {
             $userPharmacy  = new User();
             $userPharmacy->assignRole('pharmacy');
             $userPharmacy->name = fake()->name();

@@ -12,7 +12,7 @@ class DoctorSeeder extends Seeder
 {
     public function run(): void
     {
-        Doctor::factory(10)->create()->each(function ($eachDoctor) {
+        Doctor::factory(20)->create()->each(function ($eachDoctor) {
             $userDoctor  = new User();
             $userDoctor->assignRole('doctor');
             $userDoctor->name = fake()->name();
